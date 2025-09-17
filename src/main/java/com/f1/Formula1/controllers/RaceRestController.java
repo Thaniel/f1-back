@@ -22,7 +22,7 @@ import com.f1.Formula1.services.RaceService;
 
 
 @RestController
-@RequestMapping("/races/")
+@RequestMapping("/races")
 public class RaceRestController {
 	
 	@Autowired
@@ -34,7 +34,7 @@ public class RaceRestController {
 	 * Get Races
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Race>> getAllRaces() {
+	public ResponseEntity<List<Race>> getAllRaces() {
 		List<Race> races = raceService.getAll();
 
 		if (races.isEmpty()) {
@@ -47,8 +47,8 @@ public class RaceRestController {
 	/*
 	 * Get Race by Id
 	 */
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Race> getRaceById(@PathVariable Long id) {
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Race> getRaceById(@PathVariable Long id) {
 		Race race = raceService.getById(id);
 
 		if (race == null) {
@@ -62,7 +62,7 @@ public class RaceRestController {
 	 * Create Race
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Race> saveRace(@RequestBody Race race) {
+	public ResponseEntity<Race> saveRace(@RequestBody Race race) {
 		try {
 			Race raceSaved = raceService.create(race);
 			URI uri = new URI(path.concat(raceSaved.getId().toString()));
@@ -76,7 +76,7 @@ public class RaceRestController {
 	/*
 	 * Update Race
 	 */
-	@PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Race> updateUserById(@PathVariable long id, @RequestBody Race race) {
 		Race updatedRace = raceService.update(race);
 
@@ -89,8 +89,8 @@ public class RaceRestController {
 	/*
 	 * Delete Race
 	 */
-	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Race> deleteUser(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Race> deleteUser(@PathVariable Long id) {
 		Race raceDeleted = raceService.delete(id);
 
 		if (raceDeleted == null) {

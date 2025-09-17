@@ -24,7 +24,7 @@ import com.f1.Formula1.mappers.TeamMapper;
 import com.f1.Formula1.services.TeamService;
 
 @RestController
-@RequestMapping("/teams/")
+@RequestMapping("/teams")
 public class TeamRestController {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class TeamRestController {
 	 * Get Teams
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<TeamDTO>> getAllTeams() {
+	public ResponseEntity<List<TeamDTO>> getAllTeams() {
 		List<Team> teams = teamService.getAll();
 
 		List<TeamDTO> teamDTOs = teams.stream()
@@ -53,9 +53,9 @@ public class TeamRestController {
 	/*
 	 * Get Team by Id
 	 */
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
+	public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
 		Team team = teamService.getById(id);
 		
 		TeamDTO teamDTO = TeamMapper.toDTO(team);
@@ -71,7 +71,7 @@ public class TeamRestController {
 	 * Create Team
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<TeamDTO> saveTeam(@RequestBody Team team) {
+	public ResponseEntity<TeamDTO> saveTeam(@RequestBody Team team) {
 		try {
 			Team teamSaved = teamService.create(team);
 			URI uri = new URI(path.concat(teamSaved.getId().toString()));
@@ -88,7 +88,7 @@ public class TeamRestController {
 	/*
 	 * Update Team
 	 */
-	@PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TeamDTO> updateTeamById(@PathVariable long id, @RequestBody Team team) {
 		Team updatedTeam = teamService.update(team);
 
@@ -104,8 +104,8 @@ public class TeamRestController {
 	/*
 	 * Delete Team
 	 */
-	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<TeamDTO> deleteTeam(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TeamDTO> deleteTeam(@PathVariable Long id) {
 		Team teamDeleted = teamService.delete(id);
 
 		if (teamDeleted == null) {
@@ -121,7 +121,7 @@ public class TeamRestController {
 	 * Get Teams Ordered by Points
 	 */
 	@GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<TeamDTO>> getTeamsOrderedByPoints(){
+	public ResponseEntity<List<TeamDTO>> getTeamsOrderedByPoints(){
 		List<Team> teams = teamService.getTeamsOrderedByPoints();
 		
         if (teams.isEmpty()) {

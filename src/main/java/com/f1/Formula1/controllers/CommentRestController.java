@@ -22,7 +22,7 @@ import com.f1.Formula1.entities.Comment;
 import com.f1.Formula1.services.CommentService;
 
 @RestController
-@RequestMapping("/comments/")
+@RequestMapping("/comments")
 public class CommentRestController {
 	// TODO RequestMapping
 
@@ -35,7 +35,7 @@ public class CommentRestController {
 	 * Get Comments
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Comment>> getAllComments() {
+	public ResponseEntity<List<Comment>> getAllComments() {
 		List<Comment> comments = commentService.getAll();
 
 		if (comments.isEmpty()) {
@@ -48,9 +48,9 @@ public class CommentRestController {
 	/*
 	 * Get Comment by Id
 	 */
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
+	public ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
 		Comment comment = commentService.getById(id);
 
 		if (comment == null) {
@@ -64,7 +64,7 @@ public class CommentRestController {
 	 * Create Comment
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Comment> saveComment(@RequestBody CommentDTO commentDTO) {
+	public ResponseEntity<Comment> saveComment(@RequestBody CommentDTO commentDTO) {
 		try {
 			Comment commentSaved = null;
 			URI uri = null;
@@ -86,7 +86,7 @@ public class CommentRestController {
 	/*
 	 * Update Comment
 	 */
-	@PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Comment> updateCommentById(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
 		try {
 			Comment updatedComment = null;
@@ -109,8 +109,8 @@ public class CommentRestController {
 	/*
 	 * Delete Comment
 	 */
-	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Comment> deleteComment(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Comment> deleteComment(@PathVariable Long id) {
 		Comment commentDeleted = commentService.delete(id);
 
 		if (commentDeleted == null) {

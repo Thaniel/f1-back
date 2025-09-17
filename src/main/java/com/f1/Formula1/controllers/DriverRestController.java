@@ -24,7 +24,7 @@ import com.f1.Formula1.mappers.DriverMapper;
 import com.f1.Formula1.services.DriverService;
 
 @RestController
-@RequestMapping("/drivers/")
+@RequestMapping("/drivers")
 public class DriverRestController {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class DriverRestController {
 	 * Get Drivers
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<DriverDTO>> getAllDrivers() {
+	public ResponseEntity<List<DriverDTO>> getAllDrivers() {
 		List<Driver> drivers = driverService.getAll();
 		
 		if (drivers.isEmpty()) {
@@ -53,9 +53,9 @@ public class DriverRestController {
 	/*
 	 * Get Driver by Id
 	 */
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<DriverDTO> getDriverById(@PathVariable Long id) {
+	public ResponseEntity<DriverDTO> getDriverById(@PathVariable Long id) {
 		Driver driver = driverService.getById(id);
 		
 		if (driver == null) {
@@ -71,7 +71,7 @@ public class DriverRestController {
 	 * Create Driver
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<DriverDTO> saveDriver(@RequestBody Driver driver) {
+	public ResponseEntity<DriverDTO> saveDriver(@RequestBody Driver driver) {
 		try {
 			Driver driverSaved = driverService.create(driver);
 			URI uri = new URI(path.concat(driverSaved.getId().toString()));
@@ -88,7 +88,7 @@ public class DriverRestController {
 	/*
 	 * Update Driver
 	 */
-	@PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DriverDTO> updateDriverById(@PathVariable long id, @RequestBody Driver driver) {
 		Driver updatedDriver = driverService.update(driver);
 
@@ -104,8 +104,8 @@ public class DriverRestController {
 	/*
 	 * Delete Driver
 	 */
-	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<DriverDTO> deleteDriver(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DriverDTO> deleteDriver(@PathVariable Long id) {
 		Driver driverDeleted = driverService.delete(id);
 
 		if (driverDeleted == null) {

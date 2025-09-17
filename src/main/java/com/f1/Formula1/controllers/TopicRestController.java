@@ -20,7 +20,7 @@ import com.f1.Formula1.entities.Topic;
 import com.f1.Formula1.services.TopicService;
 
 @RestController
-@RequestMapping("/topics/")
+@RequestMapping("/topics")
 public class TopicRestController {
 	@Autowired
 	private TopicService topicService;
@@ -28,17 +28,17 @@ public class TopicRestController {
 	private String path = "/topics/";
 
 	@GetMapping
-	private ResponseEntity<List<Topic>> getAllTopics() {
+	public ResponseEntity<List<Topic>> getAllTopics() {
 		return ResponseEntity.ok(topicService.findAll());
 	}
 
-	@GetMapping("{id}")
-	private ResponseEntity<Optional<Topic>> getTopicById(@PathVariable Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<Topic>> getTopicById(@PathVariable Long id) {
 		return ResponseEntity.ok(topicService.findById(id));
 	}
 
 	@PostMapping
-	private ResponseEntity<Topic> saveTopic(@RequestBody Topic topic) {
+	public ResponseEntity<Topic> saveTopic(@RequestBody Topic topic) {
 		try {
 			Topic topicSaved = topicService.save(topic);
 			URI uri = new URI(path.concat(topicSaved.getId().toString()));
@@ -49,8 +49,8 @@ public class TopicRestController {
 		}
 	}
 
-	@DeleteMapping(value = "delete/{id}")
-	private ResponseEntity<Boolean> deleteTopic(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Boolean> deleteTopic(@PathVariable Long id) {
 		topicService.deleteById(id);
 		return ResponseEntity.ok(!(topicService.findById(id) != null));
 	}
