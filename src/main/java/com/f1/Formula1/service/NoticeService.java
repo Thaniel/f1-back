@@ -19,28 +19,36 @@ public class NoticeService extends AbstractCRUDService<Notice, INoticeRepository
 	protected Long getEntityId(Notice notice) {
 		return notice.getId();
 	}
-	
-	public List<Notice> getNoticesOrderedByDate (){
+
+	public List<Notice> getNoticesSortDescByDate() {
 		return repository.findAll(Sort.by(Sort.Direction.DESC, "date"));
 	}
-	
-	public List<Notice> getNoticesByUserId (Long userId){
+
+	public List<Notice> getNoticesByUserId(Long userId) {
 		return repository.findByUserId(userId);
 	}
-	
-	public List<Notice> getNoticesByNumberOfComments (){
+
+	public List<Notice> getNoticesByNumberOfComments() {
 		List<Notice> notices = repository.findAll();
-		
+
 		notices.sort((n1, n2) -> Integer.compare(n2.getComments().size(), n1.getComments().size()));
-		
+
 		/*
-		 * Other option 
-		 * 		Making the query on INoticeRepository -> Better for big collections 
+		 * Other option Making the query on INoticeRepository -> Better for big
+		 * collections
 		 * 
-		 *  @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) DESC")
-		 *  List<Notice> findNoticesOrderedByNumberOfComments();
+		 * @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) DESC"
+		 * ) List<Notice> findNoticesOrderedByNumberOfComments();
 		 */
-		
+
 		return notices;
+	}
+
+	public List<Notice> getNoticesByYear(Integer year) {
+		return repository.findByYear(year);
+	}
+
+	public List<Notice> getNoticesByYearAndMonth(Integer year, Integer month) {
+		return repository.findByYearAndMonth(year, month);
 	}
 }

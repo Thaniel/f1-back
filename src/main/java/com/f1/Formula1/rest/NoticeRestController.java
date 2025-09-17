@@ -2,6 +2,7 @@ package com.f1.Formula1.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Year;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.f1.Formula1.model.Notice;
 import com.f1.Formula1.service.NoticeService;
 
+import io.micrometer.core.annotation.Timed;
+
 @RestController
-@RequestMapping("/notices/")
+@RequestMapping("/notices")
 public class NoticeRestController {
 
 	@Autowired
 	private NoticeService noticeService;
 
-	private String path = "/notices/";
+	private final String path = "/notices/";
 
 	/*
 	 * Get Notices
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Notice>> getAllNotices() {
+	@Timed("notices.all")
+	public ResponseEntity<List<Notice>> getAllNotices() {
 		List<Notice> notices = noticeService.getAll();
 
 		if (notices.isEmpty()) {
@@ -42,13 +46,13 @@ public class NoticeRestController {
 
 		return ResponseEntity.ok(notices);
 	}
-
+	
 	/*
 	 * Get Notice by Id
 	 */
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Notice> getNoticeById(@PathVariable Long id) {
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.by.id")
+	public ResponseEntity<Notice> getNoticeById(@PathVariable Long id) {
 		Notice notice = noticeService.getById(id);
 
 		if (notice == null) {
@@ -62,7 +66,8 @@ public class NoticeRestController {
 	 * Create Notice
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Notice> saveNotice(@RequestBody Notice notice) {
+	@Timed("notices.create")
+	public ResponseEntity<Notice> saveNotice(@RequestBody Notice notice) {
 		try {
 			Notice noticeSaved = noticeService.create(notice);
 			URI uri = new URI(path.concat(noticeSaved.getId().toString()));
@@ -76,7 +81,7 @@ public class NoticeRestController {
 	/*
 	 * Update Notice
 	 */
-	@PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Notice> updateNoticeById(@PathVariable long id, @RequestBody Notice notice) {
 		Notice updatedNotice = noticeService.update(notice);
 
@@ -89,8 +94,8 @@ public class NoticeRestController {
 	/*
 	 * Delete Notice
 	 */
-	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<Notice> deleteNotice(@PathVariable Long id) {
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Notice> deleteNotice(@PathVariable Long id) {
 		Notice noticeDeleted = noticeService.delete(id);
 
 		if (noticeDeleted == null) {
@@ -101,11 +106,11 @@ public class NoticeRestController {
 	}
 
 	/*
-	 * Get Notices Ordered by Date
+	 * Get Notices Sort by Date
 	 */
-	@GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Notice>> getNoticesOrderedByDate() {
-		List<Notice> notices = noticeService.getNoticesOrderedByDate();
+	@GetMapping(value = "/sort", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Notice>> getNoticesSortDescByDate() {
+		List<Notice> notices = noticeService.getNoticesSortDescByDate();
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
@@ -118,7 +123,8 @@ public class NoticeRestController {
 	 * Get Notices by User Id
 	 */
 	@GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Notice>> getNoticesByUserId(@PathVariable Long userId) {
+    @Timed("notices.by.user")
+	public ResponseEntity<List<Notice>> getNoticesByUserId(@PathVariable Long userId) {
 		List<Notice> notices = noticeService.getNoticesByUserId(userId);
 
 		if (notices.isEmpty()) {
@@ -132,11 +138,56 @@ public class NoticeRestController {
 	 * Get Notices Sorted by Number of Comments
 	 */
 	@GetMapping(value = "/sortedNumberComments", produces = MediaType.APPLICATION_JSON_VALUE)
-	private ResponseEntity<List<Notice>> getNoticesByNumberOfComments() {
+	public ResponseEntity<List<Notice>> getNoticesByNumberOfComments() {
 		List<Notice> notices = noticeService.getNoticesByNumberOfComments();
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
+		}
+
+		return ResponseEntity.ok(notices);
+	}
+
+
+
+	/*
+	 * Get Notices by Year
+	 */
+	@GetMapping(value = "/year/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.by.year")
+	public ResponseEntity<List<Notice>> getNoticesByYear(@PathVariable("year") Integer year) {
+		if (year == null || year < 1900 || year > Year.now().getValue()) {
+			return ResponseEntity.badRequest().header("message", "Invalid year: " + year).build();
+		}
+
+		List<Notice> notices = noticeService.getNoticesByYear(year);
+
+		if (notices.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No notices found for year: " + year).build();
+		}
+
+		return ResponseEntity.ok(notices);
+	}
+
+	/*
+	 * Get Notices by Year and Month
+	 */
+	@GetMapping(value = "/year/{year}/month/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.by.year.month")
+	public ResponseEntity<List<Notice>> getNoticesByYear(@PathVariable("year") Integer year,
+			@PathVariable("month") Integer month) {
+
+		if (year == null || year < 1900 || year > Year.now().getValue()) {
+			return ResponseEntity.badRequest().header("message", "Invalid year: " + year).build();
+		} else if (month == null || month < 1 || month > 12) {
+			return ResponseEntity.badRequest().header("message", "Invalid month: " + month).build();
+		}
+
+		List<Notice> notices = noticeService.getNoticesByYearAndMonth(year, month);
+
+		if (notices.isEmpty()) {
+			return ResponseEntity.noContent()
+					.header("message", "No notices found for year: " + year + " and month: " + month).build();
 		}
 
 		return ResponseEntity.ok(notices);

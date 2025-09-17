@@ -51,7 +51,8 @@ INSERT INTO notices (date, summary, text, title, image, id_user)
 VALUES 
 ('2025-01-08', 'This is a brief summary of the first entry.', 'This is the full text content of the first entry.', 'First Title', 'first_image_url.jpg', 1),
 ('2025-01-07', 'Second summary of another entry.', 'Detailed text for the second entry goes here.', 'Second Title', 'second_image_url.jpg', 2),
-('2025-01-06', 'A different summary for the third entry.', 'Comprehensive text content for the third entry.', 'Third Title', 'third_image_url.jpg', 3);
+('2025-02-06', 'A different summary for the third entry.', 'Comprehensive text content for the third entry.', 'Third Title', 'third_image_url.jpg', 3),
+('2024-01-06', 'Sumary......', 'Fourth entry.', 'Fourth Title', 'fourth_image_url.jpg', 1);
 
 INSERT INTO comments (date, text, id_user, id_notice)
 VALUES 
