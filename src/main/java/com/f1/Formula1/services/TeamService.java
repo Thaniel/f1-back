@@ -23,4 +23,8 @@ public class TeamService extends AbstractCRUDService<Team, ITeamRepository> {
 	public List<Team> getTeamsOrderedByPoints(){
 		return repository.findAll(Sort.by(Sort.Direction.DESC, "points"));
 	}
+	
+	public List<Team> getTeamsByName(String name){
+		return repository.findByNameContainingIgnoreCase(name);
+	}
 }

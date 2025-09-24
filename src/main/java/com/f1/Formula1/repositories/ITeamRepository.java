@@ -12,4 +12,6 @@ import com.f1.Formula1.entities.Team;
 public interface ITeamRepository extends JpaRepository<Team, Long>{
 
 	List<Team> findAll(Sort sort);
+	
+	List<Team> findByNameContainingIgnoreCase(String name);
 }
