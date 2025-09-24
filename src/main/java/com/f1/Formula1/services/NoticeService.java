@@ -38,7 +38,7 @@ public class NoticeService extends AbstractCRUDService<Notice, INoticeRepository
 		 * collections
 		 * 
 		 * @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) DESC"
-		 * ) List<Notice> findNoticesOrderedByNumberOfComments();
+		 * ) List<Notice> findNoticesSortedByNumberOfComments();
 		 */
 
 		return notices;

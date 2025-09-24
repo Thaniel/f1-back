@@ -24,8 +24,8 @@ public class DriverService extends AbstractCRUDService<Driver, IDriverRepository
 		return repository.findByTeamId(teamId);
 	}
 
-	public List<Driver> getDriversOrderedByPoints() {
-		return repository.findAll(Sort.by(Sort.Direction.DESC, "points"));
+	public List<Driver> getDriversSortedByPoints(Sort.Direction direction) {
+		return repository.findAll(Sort.by(direction, "points"));
 	}
 
 	public List<Driver> getDriversByName(String firstName) {

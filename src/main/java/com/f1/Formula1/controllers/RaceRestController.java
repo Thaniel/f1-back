@@ -103,6 +103,7 @@ public class RaceRestController {
 	/*
 	 * Get Races Ordered by Date
 	 */
+	//TODO change endpoint
     @GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Race>> getRacesOrderedByDate() {
 		List<Race> races = raceService.getRacesOrderedByDate();

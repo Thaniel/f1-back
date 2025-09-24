@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -121,12 +122,13 @@ public class TeamRestController {
 	}
 
 	/*
-	 * Get Teams Ordered by Points
+	 * Get Teams Sorted by Points
 	 */
-	@GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed("teams.ordered")
-	public ResponseEntity<List<TeamDTO>> getTeamsOrderedByPoints() {
-		List<Team> teams = teamService.getTeamsOrderedByPoints();
+	@GetMapping(value = "/sortedByPoints", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("teams.sorted")
+	public ResponseEntity<List<TeamDTO>> getTeamsSortedByPoints(@RequestParam(defaultValue = "desc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		List<Team> teams = teamService.getTeamsSortedByPoints(direction);
 
 		if (teams.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No teams found").build();

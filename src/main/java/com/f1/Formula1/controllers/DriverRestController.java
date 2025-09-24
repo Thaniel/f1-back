@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -138,12 +139,13 @@ public class DriverRestController {
 	}
 
 	/*
-	 * Get Drivers Ordered by Points
+	 * Get Drivers Sorted by Points
 	 */
-	@GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed("drivers.ordered")
-	public ResponseEntity<List<DriverDTO>> getDriversOrderedByPoints() {
-		List<Driver> drivers = driverService.getDriversOrderedByPoints();
+	@GetMapping(value = "/sortedByPoints", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.sorted")
+	public ResponseEntity<List<DriverDTO>> getDriversSortedByPoints(@RequestParam(defaultValue = "desc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		List<Driver> drivers = driverService.getDriversSortedByPoints(direction);
 
 		if (drivers.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No drivers found").build();
