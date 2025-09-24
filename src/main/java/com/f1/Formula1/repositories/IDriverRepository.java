@@ -14,4 +14,9 @@ public interface IDriverRepository extends JpaRepository<Driver, Long> {
 	List<Driver> findByTeamId(Long teamId); // Spring Data JPA automatically interprets and makes the query
 	
 	List<Driver> findAll(Sort sort);
+	
+	List<Driver> findByFirstNameContainingIgnoreCase(String firstName);
+	
+    List<Driver> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String name, String surname);
+
 }

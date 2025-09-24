@@ -19,12 +19,20 @@ public class DriverService extends AbstractCRUDService<Driver, IDriverRepository
 	protected Long getEntityId(Driver driver) {
 		return driver.getId();
 	}
-	
-    public List<Driver> getDriversByTeamId(Long teamId) {
-        return repository.findByTeamId(teamId);
-    }
-    
-    public List<Driver> getDriversOrderedByPoints() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "points"));
-    }
+
+	public List<Driver> getDriversByTeamId(Long teamId) {
+		return repository.findByTeamId(teamId);
+	}
+
+	public List<Driver> getDriversOrderedByPoints() {
+		return repository.findAll(Sort.by(Sort.Direction.DESC, "points"));
+	}
+
+	public List<Driver> getDriversByName(String firstName) {
+		return repository.findByFirstNameContainingIgnoreCase(firstName);
+	}
+
+	public List<Driver> getDriversByNameAndLastName(String firstName, String lastName) {
+		return repository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName);
+	}
 }

@@ -53,7 +53,6 @@ public class UserRestController {
 	 * Get User by Id
 	 */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("users.by.id")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
 		User user = userService.getById(id);

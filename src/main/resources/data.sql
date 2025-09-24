@@ -23,25 +23,25 @@ INSERT INTO races (
 	Teams
 */
 
-INSERT INTO teams (id, name, full_name, color_code, description, team_principal, car_image, logo_image, titles, points) 
+INSERT INTO teams (name, full_name, color_code, description, team_principal, car_image, logo_image, titles, points) 
 VALUES 
-(1, 'Red Bull', 'Oracle Red Bull Racing', '#0600ef', 'Equipo campeón de Fórmula 1', 'Christian Horner', 'redbull_car.png', 'redbull_logo.png', 5, 6800),
-(2, 'Mercedes', 'Mercedes-AMG Petronas F1 Team', '#00d2be', 'Dominante durante la era híbrida', 'Toto Wolff', 'mercedes_car.png', 'mercedes_logo.png', 8, 7000),
-(3, 'Ferrari', 'Scuderia Ferrari', '#ef1a2d', 'El equipo más legendario de la F1', 'Fred Vasseur', 'ferrari_car.png', 'ferrari_logo.png', 16, 9100);
+('Red Bull', 'Oracle Red Bull Racing', '#0600ef', 'Equipo campeón de Fórmula 1', 'Christian Horner', 'redbull_car.png', 'redbull_logo.png', 5, 6800),
+('Mercedes', 'Mercedes-AMG Petronas F1 Team', '#00d2be', 'Dominante durante la era híbrida', 'Toto Wolff', 'mercedes_car.png', 'mercedes_logo.png', 8, 7000),
+('Ferrari', 'Scuderia Ferrari', '#ef1a2d', 'El equipo más legendario de la F1', 'Fred Vasseur', 'ferrari_car.png', 'ferrari_logo.png', 16, 9100);
 
 
 /*
 	Drivers
 */
 
-INSERT INTO drivers (id, first_name, last_name, country, birth_date, points, titles, image, team_id) 
+INSERT INTO drivers (first_name, last_name, country, birth_date, points, titles, image, team_id) 
 VALUES 
-(1, 'Max', 'Verstappen', 'Netherlands', '1997-09-30', 440, 3, 'max_verstappen.png', 1),
-(2, 'Sergio', 'Perez', 'Mexico', '1990-01-26', 280, 0, 'sergio_perez.png', 1),
-(3, 'Lewis', 'Hamilton', 'United Kingdom', '1985-01-07', 432, 7, 'lewis_hamilton.png', 2),
-(4, 'George', 'Russell', 'United Kingdom', '1998-02-15', 140, 0, 'george_russell.png', 2),
-(5, 'Charles', 'Leclerc', 'Monaco', '1997-10-16', 160, 0, 'charles_leclerc.png', 3),
-(6, 'Carlos', 'Sainz', 'Spain', '1994-09-01', 140, 0, 'carlos_sainz.png', 3);
+('Max', 'Verstappen', 'Netherlands', '1997-09-30', 440, 3, 'max_verstappen.png', 1),
+('Sergio', 'Perez', 'Mexico', '1990-01-26', 280, 0, 'sergio_perez.png', 1),
+('Lewis', 'Hamilton', 'United Kingdom', '1985-01-07', 432, 7, 'lewis_hamilton.png', 2),
+('George', 'Russell', 'United Kingdom', '1998-02-15', 140, 0, 'george_russell.png', 2),
+('Charles', 'Leclerc', 'Monaco', '1997-10-16', 160, 0, 'charles_leclerc.png', 3),
+('Carlos', 'Sainz', 'Spain', '1994-09-01', 140, 0, 'carlos_sainz.png', 3);
 
 
 /*

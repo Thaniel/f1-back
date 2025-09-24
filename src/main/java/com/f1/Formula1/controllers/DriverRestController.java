@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.f1.Formula1.dtos.DriverDTO;
 import com.f1.Formula1.entities.Driver;
 import com.f1.Formula1.mappers.DriverMapper;
 import com.f1.Formula1.services.DriverService;
+
+import io.micrometer.core.annotation.Timed;
 
 @RestController
 @RequestMapping("/drivers")
@@ -36,17 +39,16 @@ public class DriverRestController {
 	 * Get Drivers
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.all")
 	public ResponseEntity<List<DriverDTO>> getAllDrivers() {
 		List<Driver> drivers = driverService.getAll();
-		
+
 		if (drivers.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No drivers found").build();
 		}
 
-		List<DriverDTO> driverDTOs = drivers.stream()
-				.map(DriverMapper::toDTO)
-				.collect(Collectors.toList());
-		
+		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
+
 		return ResponseEntity.ok(driverDTOs);
 	}
 
@@ -54,16 +56,16 @@ public class DriverRestController {
 	 * Get Driver by Id
 	 */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.by.id")
 	public ResponseEntity<DriverDTO> getDriverById(@PathVariable Long id) {
 		Driver driver = driverService.getById(id);
-		
+
 		if (driver == null) {
 			return ResponseEntity.noContent().header("message", "Driver not found with id: " + id).build();
 		}
-		
+
 		DriverDTO driverDTO = DriverMapper.toDTO(driver);
-		
+
 		return ResponseEntity.ok(driverDTO);
 	}
 
@@ -77,7 +79,7 @@ public class DriverRestController {
 			URI uri = new URI(path.concat(driverSaved.getId().toString()));
 
 			DriverDTO driverSavedDTO = DriverMapper.toDTO(driverSaved);
-			
+
 			return ResponseEntity.created(uri).body(driverSavedDTO);
 			// return ResponseEntity.ok(driver);
 		} catch (URISyntaxException e) {
@@ -89,15 +91,16 @@ public class DriverRestController {
 	 * Update Driver
 	 */
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.update")
 	public ResponseEntity<DriverDTO> updateDriverById(@PathVariable long id, @RequestBody Driver driver) {
 		Driver updatedDriver = driverService.update(driver);
 
 		if (updatedDriver == null) {
 			return ResponseEntity.notFound().header("message", "Driver not found with id: " + id).build();
 		}
-		
+
 		DriverDTO updatedDriverDTO = DriverMapper.toDTO(updatedDriver);
-		
+
 		return ResponseEntity.ok(updatedDriverDTO);
 	}
 
@@ -113,43 +116,66 @@ public class DriverRestController {
 		}
 
 		DriverDTO driverDeletedDTO = DriverMapper.toDTO(driverDeleted);
-		
+
 		return ResponseEntity.ok(driverDeletedDTO);
 	}
-	
+
 	/*
 	 * Get Drivers by Team Id
 	 */
-    @GetMapping(value = "/team/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<DriverDTO>> getDriversByTeamId(@PathVariable Long teamId) {
-        List<Driver> drivers = driverService.getDriversByTeamId(teamId);
+	@GetMapping(value = "/team/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.by.team.id")
+	public ResponseEntity<List<DriverDTO>> getDriversByTeamId(@PathVariable Long teamId) {
+		List<Driver> drivers = driverService.getDriversByTeamId(teamId);
 
-        if (drivers.isEmpty()) {
-            return ResponseEntity.noContent().header("message", "No drivers found for team id: " + teamId).build();
-        }
+		if (drivers.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No drivers found for team id: " + teamId).build();
+		}
 
-        List<DriverDTO> driverDTOs = drivers.stream()
-                                            .map(DriverMapper::toDTO)
-                                            .collect(Collectors.toList());
-                                            
-        return ResponseEntity.ok(driverDTOs);
-    }
-    
+		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
+
+		return ResponseEntity.ok(driverDTOs);
+	}
+
 	/*
 	 * Get Drivers Ordered by Points
 	 */
-    @GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<DriverDTO>> getDriversOrderedByPoints() {
-        List<Driver> drivers = driverService.getDriversOrderedByPoints();
+	@GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.ordered")
+	public ResponseEntity<List<DriverDTO>> getDriversOrderedByPoints() {
+		List<Driver> drivers = driverService.getDriversOrderedByPoints();
 
-        if (drivers.isEmpty()) {
-            return ResponseEntity.noContent().header("message", "No drivers found").build();
-        }
+		if (drivers.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No drivers found").build();
+		}
 
-        List<DriverDTO> driverDTOs = drivers.stream()
-                                            .map(DriverMapper::toDTO)
-                                            .collect(Collectors.toList());
-                                            
-        return ResponseEntity.ok(driverDTOs);
-    }
+		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
+
+		return ResponseEntity.ok(driverDTOs);
+	}
+
+	/*
+	 * Get Driver by Name and Last Name
+	 */
+	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<DriverDTO>> getDriversByFirstnameAndLastName(@RequestParam("firstName") String firstName,
+			@RequestParam(value = "lastName", required = false) String lastName) {
+		List<Driver> drivers;
+
+		if (lastName == null || lastName.isBlank()) {
+			drivers = driverService.getDriversByName(firstName);
+		} else {
+			drivers = driverService.getDriversByNameAndLastName(firstName, lastName);
+		}
+
+		if (drivers.isEmpty()) {
+			return ResponseEntity.noContent().header("message",
+					"No drivers found for name: " + firstName + (lastName != null ? " and surname: " + lastName : ""))
+					.build();
+		}
+
+		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
+
+		return ResponseEntity.ok(driverDTOs);
+	}
 }
