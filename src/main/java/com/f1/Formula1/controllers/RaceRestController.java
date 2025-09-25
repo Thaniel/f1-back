@@ -1,7 +1,10 @@
 package com.f1.Formula1.controllers;
 
+import static org.mockito.ArgumentMatchers.nullable;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -129,8 +132,12 @@ public class RaceRestController {
 	 * Get Race by Country
 	 */
 	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Race>> getRacesByCountry(@RequestParam("country") String country) {
-		List<Race> races = raceService.getRacesByCountry(country);
+	public ResponseEntity<List<Race>> getRacesByCountry(@RequestParam(value = "country") String country) {
+		List<Race> races = new ArrayList<Race>();
+		
+		if(country != null && country != "") {
+			 races = raceService.getRacesByCountry(country);
+		}
 
 		if (races.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No races found for country: " + country).build();

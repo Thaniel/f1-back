@@ -115,14 +115,18 @@ public class UserRestController {
 	 */
 	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("users.by.username")
-	public ResponseEntity<User> getUserByUsername(@RequestParam("username") String username) {
-		User userFound = userService.getUserByUsername(username);
+	public ResponseEntity<User> getUserByUsername(@RequestParam(value = "username") String username) {
+		User user = userService.getUserByUsername(username);
+		
+		if(username != null && username != "") {
+			user = userService.getUserByUsername(username);
+		}
 
-		if (userFound == null) {
+		if (user == null) {
 			return ResponseEntity.noContent().header("message", "User not found with username: " + username).build();
 		}
 
-		return ResponseEntity.ok(userFound);
+		return ResponseEntity.ok(user);
 	}
 
 	/*

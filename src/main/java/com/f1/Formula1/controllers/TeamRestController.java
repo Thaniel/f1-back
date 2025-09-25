@@ -2,6 +2,7 @@ package com.f1.Formula1.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -144,8 +145,12 @@ public class TeamRestController {
 	 */
 	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<TeamDTO>> getTeamsByName(@RequestParam("name") String name) {
-		List<Team> teams = teamService.getTeamsByName(name);
-
+		List<Team> teams = new ArrayList<Team>();
+		
+		if(name != null && name != "") {
+			teams = teamService.getTeamsByName(name);	
+		}
+		
 		if (teams.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No teams found for name: " + name).build();
 		}

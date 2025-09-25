@@ -2,6 +2,7 @@ package com.f1.Formula1.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -162,12 +163,12 @@ public class DriverRestController {
 	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<DriverDTO>> getDriversByFirstnameAndLastName(@RequestParam("firstName") String firstName,
 			@RequestParam(value = "lastName", required = false) String lastName) {
-		List<Driver> drivers;
+		List<Driver> drivers = new ArrayList<Driver>();
 
-		if (lastName == null || lastName.isBlank()) {
-			drivers = driverService.getDriversByName(firstName);
-		} else {
+		if (lastName != null && lastName != "" && firstName != null && firstName != "") {
 			drivers = driverService.getDriversByNameAndLastName(firstName, lastName);
+		} else if (firstName != null && firstName != "") {
+			drivers = driverService.getDriversByName(firstName);
 		}
 
 		if (drivers.isEmpty()) {
