@@ -20,7 +20,11 @@ public class RaceService extends AbstractCRUDService<Race, IRaceRepository>{
 		return race.getId();
 	}
 	
-	public List<Race> getRacesOrderedByDate(){
-		return repository.findAll(Sort.by(Sort.Direction.ASC, "raceDate"));
+	public List<Race> getRacesSortedByDate(Sort.Direction direction){
+		return repository.findAll(Sort.by(direction, "raceDate"));
+	}
+	
+	public List<Race> getRacesByCountry(String country){
+		return repository.findByCountryContainingIgnoreCase(country);
 	}
 }

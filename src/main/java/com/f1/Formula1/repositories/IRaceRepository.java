@@ -10,4 +10,6 @@ import com.f1.Formula1.entities.Race;
 public interface IRaceRepository extends JpaRepository<Race, Long>{
 
 	List<Race> findAll(Sort sort);
+	
+	List<Race> findByCountryContainingIgnoreCase(String country);
 }

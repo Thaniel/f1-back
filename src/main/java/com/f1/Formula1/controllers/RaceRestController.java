@@ -3,8 +3,10 @@ package com.f1.Formula1.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,25 +17,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f1.Formula1.dtos.DriverDTO;
+import com.f1.Formula1.entities.Driver;
 import com.f1.Formula1.entities.Race;
+import com.f1.Formula1.mappers.DriverMapper;
 import com.f1.Formula1.services.RaceService;
 
+import io.micrometer.core.annotation.Timed;
 
 @RestController
 @RequestMapping("/races")
 public class RaceRestController {
-	
+
 	@Autowired
 	private RaceService raceService;
-	
+
 	private String path = "/races/";
 
 	/*
 	 * Get Races
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("races.all")
 	public ResponseEntity<List<Race>> getAllRaces() {
 		List<Race> races = raceService.getAll();
 
@@ -43,11 +51,12 @@ public class RaceRestController {
 
 		return ResponseEntity.ok(races);
 	}
-	
+
 	/*
 	 * Get Race by Id
 	 */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("races.by.id")
 	public ResponseEntity<Race> getRaceById(@PathVariable Long id) {
 		Race race = raceService.getById(id);
 
@@ -72,7 +81,7 @@ public class RaceRestController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	
+
 	/*
 	 * Update Race
 	 */
@@ -85,7 +94,7 @@ public class RaceRestController {
 		}
 		return ResponseEntity.ok(updatedRace);
 	}
-	
+
 	/*
 	 * Delete Race
 	 */
@@ -99,20 +108,35 @@ public class RaceRestController {
 
 		return ResponseEntity.ok(raceDeleted);
 	}
-	
+
 	/*
-	 * Get Races Ordered by Date
+	 * Get Races Sorted by Date
 	 */
-	//TODO change endpoint
-    @GetMapping(value = "/ordered", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Race>> getRacesOrderedByDate() {
-		List<Race> races = raceService.getRacesOrderedByDate();
-		
-        if (races.isEmpty()) {
-            return ResponseEntity.noContent().header("message", "No races found").build();
-        }
-        
+	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("races.sorted.by.date")
+	public ResponseEntity<List<Race>> getRacesSortedByDate(@RequestParam(defaultValue = "asc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		List<Race> races = raceService.getRacesSortedByDate(direction);
+
+		if (races.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No races found").build();
+		}
+
 		return ResponseEntity.ok(races);
 	}
-	
+
+	/*
+	 * Get Race by Country
+	 */
+	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Race>> getRacesByCountry(@RequestParam("country") String country) {
+		List<Race> races = raceService.getRacesByCountry(country);
+
+		if (races.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No races found for country: " + country).build();
+		}
+
+		return ResponseEntity.ok(races);
+	}
+
 }
