@@ -27,8 +27,7 @@ public class TopicService extends AbstractCRUDService<Topic, ITopicRepository>{
 	public List<Topic> getTopicsByNumberOfComments(){
 		List<Topic> topics = repository.findAll();
 		
-		// TODO topic.getComments()
-		//topics.sort((t1, t2) -> Integer.compare(t2.getComments().size(), t1.getComments().size()));
+		topics.sort((t1, t2) -> Integer.compare(t2.getComments().size(), t1.getComments().size()));
 		
 		return topics;
 	}

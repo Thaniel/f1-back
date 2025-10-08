@@ -33,7 +33,7 @@ public class Topic implements Serializable, ICopyable<Topic> {
 	private User user;
 
 	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<TopicComment> commnents = new ArrayList<>();
+	private List<TopicComment> comments = new ArrayList<>();
 
 	public Topic() {
 		super();
@@ -77,6 +77,14 @@ public class Topic implements Serializable, ICopyable<Topic> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public List<TopicComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<TopicComment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

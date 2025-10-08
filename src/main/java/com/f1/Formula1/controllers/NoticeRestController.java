@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.f1.Formula1.entities.Notice;
-import com.f1.Formula1.entities.Topic;
 import com.f1.Formula1.services.NoticeService;
 
 import io.micrometer.core.annotation.Timed;

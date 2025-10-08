@@ -77,7 +77,7 @@ INSERT INTO comments (date, text, id_user, id_notice, id_topic, comment_type)
 VALUES 
 ('2025-05-18', 'Comment text 1... T', 1, NULL, 1, 'TOPIC'),
 ('2025-05-17', 'Comment text 2... T', 1, NULL, 1, 'TOPIC'),
-('2025-05-16', 'Comment text 3... T', 2, NULL, 2, 'TOPIC');
+('2025-05-16', 'Comment text 3... T', 2, NULL, 3, 'TOPIC');
 
 
 
