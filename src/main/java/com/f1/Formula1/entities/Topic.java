@@ -1,33 +1,39 @@
 package com.f1.Formula1.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "topics")
-public class Topic implements Serializable {
+public class Topic implements Serializable, ICopyable<Topic> {
 
 	private static final long serialVersionUID = 6794602347131323709L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Date date;
 	private String title;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private User user;
-	
+
+	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<TopicComment> commnents = new ArrayList<>();
 
 	public Topic() {
 		super();
@@ -72,7 +78,14 @@ public class Topic implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
-	
+
+	@Override
+	public void copyProperties(Topic topic) {
+		this.id = topic.getId();
+		this.date = topic.getDate();
+		this.title = topic.getTitle();
+		this.user = topic.getUser();
+		
+	}
+
 }

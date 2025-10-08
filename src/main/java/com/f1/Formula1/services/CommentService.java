@@ -1,15 +1,19 @@
 package com.f1.Formula1.services;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.f1.Formula1.dtos.CommentDTO;
 import com.f1.Formula1.entities.Comment;
 import com.f1.Formula1.entities.Notice;
+import com.f1.Formula1.entities.Topic;
+import com.f1.Formula1.entities.NoticeComment;
+import com.f1.Formula1.entities.TopicComment;
 import com.f1.Formula1.repositories.ICommentRepository;
 import com.f1.Formula1.repositories.INoticeRepository;
+import com.f1.Formula1.repositories.ITopicRepository;
 
 @Service
 public class CommentService extends AbstractCRUDService<Comment, ICommentRepository> {
@@ -18,7 +22,7 @@ public class CommentService extends AbstractCRUDService<Comment, ICommentReposit
 	private INoticeRepository noticeRepository;
 
 	@Autowired
-	private ICommentRepository commentRepository;
+	private ITopicRepository topicRepository;
 
 	public CommentService(ICommentRepository repository) {
 		super(repository);
@@ -29,46 +33,42 @@ public class CommentService extends AbstractCRUDService<Comment, ICommentReposit
 		return comment.getId();
 	}
 
-	public Comment createInANotice(CommentDTO commentDTO) {
-		Optional<Notice> notice = noticeRepository.findById(commentDTO.getNoticeId());
+	/*
+	 * Notices comments
+	 */
+	public List<NoticeComment> getCommentsByNoticeId(Long noticeId) {
+		return repository.findByNoticeId(noticeId);
 
-		Comment comment = new Comment();
-
-		if (notice.isPresent()) {
-			comment.setDate(commentDTO.getDate());
-			comment.setText(commentDTO.getText());
-			comment.setUser(commentDTO.getUser());
-			comment.setNotice(notice.get());
-
-			comment = commentRepository.save(comment);
-		}
-
-		return comment;
 	}
 
-	public Comment updateInANotice(CommentDTO commentDTO) {
-		Optional<Comment> comment = commentRepository.findById(commentDTO.getId());
-		
-		Comment commentReturn = new Comment();
-		
-		if (comment.isPresent()) {
-			comment.get().setText(commentDTO.getText());
+	public NoticeComment saveCommentToNotice(Long noticeId, NoticeComment comment) {
+		Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("Notice not found"));
 
-			commentReturn = commentRepository.save(comment.get());
-		}
+		comment.setNotice(notice);
+		return repository.save(comment);
+	}
 
-		return commentReturn;
-	
+	public List<NoticeComment> getNoticeCommentsSortedByDate(Long noticeId, Sort.Direction direction) {
+		return repository.findByNoticeId(noticeId, Sort.by(direction, "date"));
 	}
 
 	/*
-	 * public List<Comment> findCommentsByTopic(Long idTopic) { List<Comment>
-	 * commentsResponse = new ArrayList<>(); List<Comment> allComments =
-	 * commentRepository.findAll();
-	 * 
-	 * allComments.stream() .filter(c -> c.getTopic().getId() == idTopic)
-	 * .forEach(commentsResponse::add);
-	 * 
-	 * return commentsResponse; }
+	 * Topics comments
 	 */
+	public List<TopicComment> getCommentsByTopicId(Long topicId) {
+		return repository.findByTopicId(topicId);
+
+	}
+
+	public TopicComment saveCommentToTopic(Long topicId, TopicComment comment) {
+		Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("Topic not found"));
+
+		comment.setTopic(null);
+		return repository.save(comment);
+	}
+
+	public List<TopicComment> getTopicCommentsSortedByDate(Long topicId, Sort.Direction direction) {
+		return repository.findByTopicId(topicId, Sort.by(direction, "date"));
+	}
+
 }

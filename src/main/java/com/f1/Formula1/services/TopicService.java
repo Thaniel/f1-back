@@ -1,44 +1,35 @@
 package com.f1.Formula1.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.f1.Formula1.entities.Topic;
 import com.f1.Formula1.repositories.ITopicRepository;
 
 @Service
-public class TopicService {
-	@Autowired
-	private ITopicRepository topicRepository;
-
-	public List<Topic> findAll() {
-		return topicRepository.findAll();
+public class TopicService extends AbstractCRUDService<Topic, ITopicRepository>{
+	
+	public TopicService(ITopicRepository repository) {
+		super(repository);
 	}
-
-	public <S extends Topic> S save(S entity) {
-		return topicRepository.save(entity);
+	
+	@Override
+	protected Long getEntityId(Topic topic) {
+		return topic.getId();
 	}
-
-	public Optional<Topic> findById(Long id) {
-		return topicRepository.findById(id);
+	
+	public List<Topic> getTopicsSortedByDate(Sort.Direction direction){
+		return repository.findAll(Sort.by(direction, "date"));
 	}
-
-	public void deleteById(Long id) {
-		topicRepository.deleteById(id);
-	}
-
-	public List<Topic> findTopicsByUser(Long idUser) {
-		List<Topic> topicsResponse = new ArrayList<>();
-		List<Topic> allTopics = topicRepository.findAll();
-
-		allTopics.stream()
-			.filter(t -> t.getUser().getId() == idUser)
-			.forEach(topicsResponse::add);
-
-		return topicsResponse;
+	
+	public List<Topic> getTopicsByNumberOfComments(){
+		List<Topic> topics = repository.findAll();
+		
+		// TODO topic.getComments()
+		//topics.sort((t1, t2) -> Integer.compare(t2.getComments().size(), t1.getComments().size()));
+		
+		return topics;
 	}
 }

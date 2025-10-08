@@ -6,6 +6,7 @@ import java.time.Year;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.f1.Formula1.entities.Notice;
+import com.f1.Formula1.entities.Topic;
 import com.f1.Formula1.services.NoticeService;
 
 import io.micrometer.core.annotation.Timed;
@@ -46,7 +49,7 @@ public class NoticeRestController {
 
 		return ResponseEntity.ok(notices);
 	}
-	
+
 	/*
 	 * Get Notice by Id
 	 */
@@ -108,9 +111,12 @@ public class NoticeRestController {
 	/*
 	 * Get Notices Sort by Date
 	 */
-	@GetMapping(value = "/sort", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Notice>> getNoticesSortDescByDate() {
-		List<Notice> notices = noticeService.getNoticesSortDescByDate();
+	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.sorted.by.date")
+	public ResponseEntity<List<Notice>> getNoticesSortDescByDate(@RequestParam(defaultValue = "asc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		System.out.println(order);
+		List<Notice> notices = noticeService.getNoticesSortedByDate(direction);
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
@@ -123,7 +129,7 @@ public class NoticeRestController {
 	 * Get Notices by User Id
 	 */
 	@GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed("notices.by.user")
+	@Timed("notices.by.user")
 	public ResponseEntity<List<Notice>> getNoticesByUserId(@PathVariable Long userId) {
 		List<Notice> notices = noticeService.getNoticesByUserId(userId);
 
@@ -137,7 +143,7 @@ public class NoticeRestController {
 	/*
 	 * Get Notices Sorted by Number of Comments
 	 */
-	@GetMapping(value = "/sortedNumberComments", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Notice>> getNoticesByNumberOfComments() {
 		List<Notice> notices = noticeService.getNoticesByNumberOfComments();
 
@@ -147,8 +153,6 @@ public class NoticeRestController {
 
 		return ResponseEntity.ok(notices);
 	}
-
-
 
 	/*
 	 * Get Notices by Year

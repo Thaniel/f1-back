@@ -144,4 +144,8 @@ public class UserRestController {
 
 		return ResponseEntity.ok(users);
 	}
+	
+	/*
+	 * TODO Get Topic by User Id
+	 */
 }

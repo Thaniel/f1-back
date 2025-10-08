@@ -1,38 +1,33 @@
 package com.f1.Formula1.controllers;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.f1.Formula1.dtos.CommentDTO;
 import com.f1.Formula1.entities.Comment;
 import com.f1.Formula1.services.CommentService;
+
+import io.micrometer.core.annotation.Timed;
 
 @RestController
 @RequestMapping("/comments")
 public class CommentRestController {
-	// TODO RequestMapping
 
 	@Autowired
 	private CommentService commentService;
 
-	private String path = "/comments/";
-
 	/*
-	 * Get Comments
+	 * Get Comments (Notice or Topic)
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Comment>> getAllComments() {
@@ -44,12 +39,12 @@ public class CommentRestController {
 
 		return ResponseEntity.ok(comments);
 	}
-
+	
 	/*
-	 * Get Comment by Id
+	 * Get Comment by Id (Notice or Topic)
 	 */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	// @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("comments.getById")
 	public ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
 		Comment comment = commentService.getById(id);
 
@@ -59,57 +54,27 @@ public class CommentRestController {
 
 		return ResponseEntity.ok(comment);
 	}
-
+	
 	/*
-	 * Create Comment
-	 */
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Comment> saveComment(@RequestBody CommentDTO commentDTO) {
-		try {
-			Comment commentSaved = null;
-			URI uri = null;
-			
-			if (commentDTO.getNoticeId() != null) {
-				commentSaved = commentService.createInANotice(commentDTO);
-				uri = new URI(path.concat(commentSaved.getId().toString()));
-			} else {
-				commentSaved = commentService.createInANotice(commentDTO);
-				uri = new URI(path.concat(commentSaved.getId().toString()));
-			}
-
-			return ResponseEntity.created(uri).body(commentSaved);
-		} catch (URISyntaxException e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-	}
-
-	/*
-	 * Update Comment
+	 * Update Comment (Notice or Topic)
 	 */
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Comment> updateCommentById(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-		try {
-			Comment updatedComment = null;
-			URI uri = null;
-			
-			if (commentDTO.getNoticeId() != null) {
-				updatedComment = commentService.updateInANotice(commentDTO);
-				uri = new URI(path.concat(updatedComment.getId().toString()));
-			} else {
-				updatedComment = commentService.updateInANotice(commentDTO);
-				uri = new URI(path.concat(updatedComment.getId().toString()));
-			}
-
-			return ResponseEntity.created(uri).body(updatedComment);
-		} catch (URISyntaxException e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	@Timed("comments.update")
+	public ResponseEntity<Comment> updateCommentById(@PathVariable long id, @RequestBody Comment comment) {
+		Comment updatedComment = commentService.update(comment);
+		
+		if(updatedComment == null) {
+			return ResponseEntity.notFound().header("message", "Comment not found with id: " + id).build();
 		}
+		
+		return ResponseEntity.ok(updatedComment);
 	}
 
 	/*
-	 * Delete Comment
+	 * Delete Comment (Notice or Topic)
 	 */
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("comments.delete")
 	public ResponseEntity<Comment> deleteComment(@PathVariable Long id) {
 		Comment commentDeleted = commentService.delete(id);
 
@@ -119,4 +84,5 @@ public class CommentRestController {
 
 		return ResponseEntity.ok(commentDeleted);
 	}
+	
 }

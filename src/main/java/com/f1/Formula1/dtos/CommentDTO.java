@@ -2,35 +2,34 @@ package com.f1.Formula1.dtos;
 
 import java.util.Date;
 
+import com.f1.Formula1.entities.Comment;
 import com.f1.Formula1.entities.User;
 
 public class CommentDTO {
-	
+
 	private Long id;
 	private Date date;
 	private String text;
 	private User user;
-    private Long noticeId;
-    
+
 	public CommentDTO() {
 		super();
 	}
-    
-	public Long getNoticeId() {
-		return noticeId;
+
+	public CommentDTO(Comment comment) {
+		super();
+		this.id = comment.getId();
+		this.date = comment.getDate();
+		this.text = comment.getText();
+		this.user = comment.getUser();
 	}
 
-	public void setNoticeId(Long noticeId) {
-		this.noticeId = noticeId;
-	}
-
-	public CommentDTO(Long id, Date date, String text, User user, Long noticeId) {
+	public CommentDTO(Long id, Date date, String text, User user) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.text = text;
 		this.user = user;
-		this.noticeId = noticeId;
 	}
 
 	public Long getId() {
@@ -64,4 +63,5 @@ public class CommentDTO {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 }

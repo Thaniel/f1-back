@@ -1,5 +1,6 @@
 package com.f1.Formula1.services;
 
+import java.awt.image.DirectColorModel;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -20,8 +21,8 @@ public class NoticeService extends AbstractCRUDService<Notice, INoticeRepository
 		return notice.getId();
 	}
 
-	public List<Notice> getNoticesSortDescByDate() {
-		return repository.findAll(Sort.by(Sort.Direction.DESC, "date"));
+	public List<Notice> getNoticesSortedByDate(Sort.Direction direction) {
+		return repository.findAll(Sort.by(direction, "date"));
 	}
 
 	public List<Notice> getNoticesByUserId(Long userId) {

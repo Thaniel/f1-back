@@ -3,7 +3,7 @@ package com.f1.Formula1.dtos;
 import com.f1.Formula1.entities.Team;
 
 public class TeamWithoutDriversDTO {
-	
+
 	private Long id;
 	private String name;
 	private String fullName;
@@ -18,7 +18,7 @@ public class TeamWithoutDriversDTO {
 	public TeamWithoutDriversDTO() {
 		super();
 	}
-	
+
 	public TeamWithoutDriversDTO(Team team) {
 		super();
 		this.id = team.getId();

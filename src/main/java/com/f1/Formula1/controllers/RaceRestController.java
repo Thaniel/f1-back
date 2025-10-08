@@ -1,12 +1,10 @@
 package com.f1.Formula1.controllers;
 
-import static org.mockito.ArgumentMatchers.nullable;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.f1.Formula1.dtos.DriverDTO;
-import com.f1.Formula1.entities.Driver;
 import com.f1.Formula1.entities.Race;
-import com.f1.Formula1.mappers.DriverMapper;
 import com.f1.Formula1.services.RaceService;
 
 import io.micrometer.core.annotation.Timed;

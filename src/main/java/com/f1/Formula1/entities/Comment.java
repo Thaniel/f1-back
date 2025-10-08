@@ -3,18 +3,22 @@ package com.f1.Formula1.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "comments")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 1 table for types of comments ("NOTICE", "TOPIC")
+@DiscriminatorColumn(name = "comment_type", discriminatorType = DiscriminatorType.STRING)
 public class Comment implements Serializable, ICopyable<Comment> {
 
 	private static final long serialVersionUID = -6279979307442017684L;
@@ -23,28 +27,21 @@ public class Comment implements Serializable, ICopyable<Comment> {
 	private Long id;
 	private Date date;
 	private String text;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
 	private User user;
-
-	@ManyToOne
-    @JoinColumn(name = "id_notice")
-	@JsonIgnore
-    private Notice notice;
-	
 
 	public Comment() {
 		super();
 	}
 
-	public Comment(Long id, Date date, String text, User user, Notice notice) {
+	public Comment(Long id, Date date, String text, User user) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.text = text;
 		this.user = user;
-		this.notice = notice;
 	}
 
 	public Long getId() {
@@ -79,20 +76,11 @@ public class Comment implements Serializable, ICopyable<Comment> {
 		this.user = user;
 	}
 
-	public Notice getNotice() {
-		return notice;
-	}
-
-	public void setNotice(Notice notice) {
-		this.notice = notice;
-	}
-
 	@Override
 	public void copyProperties(Comment comment) {
 		this.id = comment.getId();
 		this.date = comment.getDate();
 		this.text = comment.getText();
 		this.user = comment.getUser();
-		this.notice = comment.getNotice();		
 	}
 }

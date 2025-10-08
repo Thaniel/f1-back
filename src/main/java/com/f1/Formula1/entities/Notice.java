@@ -17,27 +17,27 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "notices")
-public class Notice implements Serializable, ICopyable<Notice>{
+public class Notice implements Serializable, ICopyable<Notice> {
 
 	private static final long serialVersionUID = 4463171584869937360L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Date date;
 	private String title;
 	private String summary;
 	private String text;
 	private String image;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private User user;
 
-	@OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
-	private List<Comment> comments = new ArrayList<>();
-	
+	@OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<NoticeComment> comments = new ArrayList<>();
+
 	public Notice() {
 		super();
 	}
@@ -109,11 +109,11 @@ public class Notice implements Serializable, ICopyable<Notice>{
 		this.user = user;
 	}
 
-	public List<Comment> getComments() {
+	public List<NoticeComment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<NoticeComment> comments) {
 		this.comments = comments;
 	}
 
@@ -126,6 +126,6 @@ public class Notice implements Serializable, ICopyable<Notice>{
 		this.title = notice.getTitle();
 		this.image = notice.getImage();
 		this.user = notice.getUser();
-		
+
 	}
 }
