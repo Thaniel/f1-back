@@ -63,7 +63,7 @@ public class CommentService extends AbstractCRUDService<Comment, ICommentReposit
 	public TopicComment saveCommentToTopic(Long topicId, TopicComment comment) {
 		Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new RuntimeException("Topic not found"));
 
-		comment.setTopic(null);
+		comment.setTopic(topic);
 		return repository.save(comment);
 	}
 
