@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f1.Formula1.dtos.TopicDTO;
 import com.f1.Formula1.entities.Topic;
+import com.f1.Formula1.mappers.TopicMapper;
 import com.f1.Formula1.services.TopicService;
 
 import io.micrometer.core.annotation.Timed;
@@ -37,15 +39,17 @@ public class TopicRestController {
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("topics.all")
-	public ResponseEntity<List<Topic>> getAllTopics() {
+	public ResponseEntity<List<TopicDTO>> getAllTopics() {
 		List<Topic> topics = topicService.getAll();
 		
 		if (topics.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No topics found").build();
 		}
 		
-		return ResponseEntity.ok(topics);
-	}
+		List<TopicDTO> topicDTOs = TopicMapper.toDTOList(topics);
+		
+		return ResponseEntity.ok(topicDTOs);
+    }
 
 	/*
 	 * Get Topic by Id
@@ -106,13 +110,14 @@ public class TopicRestController {
 		return ResponseEntity.ok(topicDeleted);
 	}
 
+	//TODO get topics by user
 
 	/*
 	 * Get Topic sorted by Date
 	 */	
-	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/sortedByDate", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("topics.sorted.by.date")
-	public ResponseEntity<List<Topic>> getTopicsSortedByDate(@RequestParam(defaultValue = "desc") String order) {
+	public ResponseEntity<List<TopicDTO>> getTopicsSortedByDate(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<Topic> topics = topicService.getTopicsSortedByDate(direction);
 
@@ -120,21 +125,25 @@ public class TopicRestController {
 			return ResponseEntity.noContent().header("message", "No topics found").build();
 		}
 
-		return ResponseEntity.ok(topics);
+		List<TopicDTO> topicDTOs = TopicMapper.toDTOList(topics);
+		
+		return ResponseEntity.ok(topicDTOs);
 	}
 	
 	/*
 	 * Get Topic sorted by Number of comments
 	 */
 	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Topic>> getTopicsByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
+	public ResponseEntity<List<TopicDTO>> getTopicsByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<Topic> topics = topicService.getTopicsByNumberOfComments(direction);
 
 		if (topics.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No topics found").build();
 		}
-
-		return ResponseEntity.ok(topics);
+		
+		List<TopicDTO> topicDTOs = TopicMapper.toDTOList(topics);
+		
+		return ResponseEntity.ok(topicDTOs);
 	}
 }
