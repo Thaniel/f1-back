@@ -24,11 +24,11 @@ public class TopicService extends AbstractCRUDService<Topic, ITopicRepository>{
 		return repository.findAll(Sort.by(direction, "date"));
 	}
 	
-	public List<Topic> getTopicsByNumberOfComments(){
-		List<Topic> topics = repository.findAll();
-		
-		topics.sort((t1, t2) -> Integer.compare(t2.getComments().size(), t1.getComments().size()));
-		
-		return topics;
+	public List<Topic> getTopicsByNumberOfComments(Sort.Direction direction){
+		if (direction == Sort.Direction.ASC) {
+            return repository.findAllOrderByCommentCountAsc();
+        } else {
+            return repository.findAllOrderByCommentCountDesc();
+        }
 	}
 }

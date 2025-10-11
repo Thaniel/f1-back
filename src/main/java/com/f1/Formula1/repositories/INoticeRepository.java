@@ -20,4 +20,10 @@ public interface INoticeRepository extends JpaRepository<Notice, Long>{
 	
 	@Query("SELECT n FROM Notice n WHERE YEAR(n.date) = :year AND MONTH(n.date) = :month")
 	List<Notice> findByYearAndMonth(@Param("year") int year, @Param("month") int month);
+	
+    @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) DESC")
+    List<Notice> findAllOrderByCommentCountDesc();
+
+    @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) ASC")
+    List<Notice> findAllOrderByCommentCountAsc();
 }

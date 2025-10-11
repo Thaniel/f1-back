@@ -1,6 +1,5 @@
 package com.f1.Formula1.services;
 
-import java.awt.image.DirectColorModel;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -29,20 +28,12 @@ public class NoticeService extends AbstractCRUDService<Notice, INoticeRepository
 		return repository.findByUserId(userId);
 	}
 
-	public List<Notice> getNoticesByNumberOfComments() {
-		List<Notice> notices = repository.findAll();
-
-		notices.sort((n1, n2) -> Integer.compare(n2.getComments().size(), n1.getComments().size()));
-
-		/*
-		 * Other option Making the query on INoticeRepository -> Better for big
-		 * collections
-		 * 
-		 * @Query("SELECT n FROM Notice n LEFT JOIN n.comments c GROUP BY n ORDER BY COUNT(c) DESC"
-		 * ) List<Notice> findNoticesSortedByNumberOfComments();
-		 */
-
-		return notices;
+	public List<Notice> getNoticesByNumberOfComments(Sort.Direction direction){
+		if (direction == Sort.Direction.ASC) {
+            return repository.findAllOrderByCommentCountAsc();
+        } else {
+            return repository.findAllOrderByCommentCountDesc();
+        }
 	}
 
 	public List<Notice> getNoticesByYear(Integer year) {

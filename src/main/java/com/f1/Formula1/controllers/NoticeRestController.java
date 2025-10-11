@@ -112,9 +112,8 @@ public class NoticeRestController {
 	 */
 	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.sorted.by.date")
-	public ResponseEntity<List<Notice>> getNoticesSortDescByDate(@RequestParam(defaultValue = "asc") String order) {
+	public ResponseEntity<List<Notice>> getNoticesSortDescByDate(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
-		System.out.println(order);
 		List<Notice> notices = noticeService.getNoticesSortedByDate(direction);
 
 		if (notices.isEmpty()) {
@@ -143,8 +142,9 @@ public class NoticeRestController {
 	 * Get Notices Sorted by Number of Comments
 	 */
 	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Notice>> getNoticesByNumberOfComments() {
-		List<Notice> notices = noticeService.getNoticesByNumberOfComments();
+	public ResponseEntity<List<Notice>> getNoticesByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		List<Notice> notices = noticeService.getNoticesByNumberOfComments(direction);
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found").build();

@@ -70,5 +70,4 @@ public class CommentService extends AbstractCRUDService<Comment, ICommentReposit
 	public List<TopicComment> getTopicCommentsSortedByDate(Long topicId, Sort.Direction direction) {
 		return repository.findByTopicId(topicId, Sort.by(direction, "date"));
 	}
-
 }

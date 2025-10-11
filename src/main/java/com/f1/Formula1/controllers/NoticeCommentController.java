@@ -69,7 +69,7 @@ public class NoticeCommentController {
 	 */
 	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.comments.sorted")
-	public ResponseEntity<List<NoticeComment>> getCommentsSortedByDate(@PathVariable Long noticeId, @RequestParam(defaultValue = "asc") String order) {
+	public ResponseEntity<List<NoticeComment>> getCommentsSortedByDate(@PathVariable Long noticeId, @RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<NoticeComment> comments = commentService.getNoticeCommentsSortedByDate(noticeId, direction);
 

@@ -70,7 +70,7 @@ public class TopicCommentController {
 	 */
 	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("topics.comments.sorted")
-	public ResponseEntity<List<TopicComment>> getCommentsSortedByDate(@PathVariable Long topicId, @RequestParam(defaultValue = "asc") String order) {
+	public ResponseEntity<List<TopicComment>> getCommentsSortedByDate(@PathVariable Long topicId,@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<TopicComment> comments = commentService.getTopicCommentsSortedByDate(topicId, direction);
 

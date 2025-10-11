@@ -112,7 +112,7 @@ public class TopicRestController {
 	 */	
 	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("topics.sorted.by.date")
-	public ResponseEntity<List<Topic>> getTopicsSortedByDate(@RequestParam(defaultValue = "asc") String order) {
+	public ResponseEntity<List<Topic>> getTopicsSortedByDate(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<Topic> topics = topicService.getTopicsSortedByDate(direction);
 
@@ -127,8 +127,9 @@ public class TopicRestController {
 	 * Get Topic sorted by Number of comments
 	 */
 	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Topic>> getTopicsByNumberOfComments() {
-		List<Topic> topics = topicService.getTopicsByNumberOfComments();
+	public ResponseEntity<List<Topic>> getTopicsByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
+		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		List<Topic> topics = topicService.getTopicsByNumberOfComments(direction);
 
 		if (topics.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No topics found").build();

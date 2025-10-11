@@ -113,7 +113,7 @@ public class RaceRestController {
 	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("races.sorted.by.date")
 	public ResponseEntity<List<Race>> getRacesSortedByDate(@RequestParam(defaultValue = "asc") String order) {
-		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		Sort.Direction direction = order.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 		List<Race> races = raceService.getRacesSortedByDate(direction);
 
 		if (races.isEmpty()) {
