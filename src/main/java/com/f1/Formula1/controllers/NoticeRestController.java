@@ -1,5 +1,6 @@
 package com.f1.Formula1.controllers;
 
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f1.Formula1.dtos.NoticeDTO;
 import com.f1.Formula1.entities.Notice;
+import com.f1.Formula1.mappers.NoticeMapper;
 import com.f1.Formula1.services.NoticeService;
 
 import io.micrometer.core.annotation.Timed;
@@ -39,14 +42,16 @@ public class NoticeRestController {
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.all")
-	public ResponseEntity<List<Notice>> getAllNotices() {
+	public ResponseEntity<List<NoticeDTO>> getAllNotices() {
 		List<Notice> notices = noticeService.getAll();
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
 		}
+		
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
 
-		return ResponseEntity.ok(notices);
+		return ResponseEntity.ok(noticeDTOs);
 	}
 
 	/*
@@ -110,9 +115,9 @@ public class NoticeRestController {
 	/*
 	 * Get Notices Sort by Date
 	 */
-	@GetMapping(value = "/sorted", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/sortedByDate", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.sorted.by.date")
-	public ResponseEntity<List<Notice>> getNoticesSortDescByDate(@RequestParam(defaultValue = "desc") String order) {
+	public ResponseEntity<List<NoticeDTO>> getNoticesSortDescByDate(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<Notice> notices = noticeService.getNoticesSortedByDate(direction);
 
@@ -120,7 +125,9 @@ public class NoticeRestController {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
 		}
 
-		return ResponseEntity.ok(notices);
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
 	}
 
 	/*
@@ -128,21 +135,23 @@ public class NoticeRestController {
 	 */
 	@GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.user")
-	public ResponseEntity<List<Notice>> getNoticesByUserId(@PathVariable Long userId) {
+	public ResponseEntity<List<NoticeDTO>> getNoticesByUserId(@PathVariable Long userId) {
 		List<Notice> notices = noticeService.getNoticesByUserId(userId);
 
 		if (notices.isEmpty()) {
 			return ResponseEntity.noContent().header("message", "No notices found for user id: " + userId).build();
 		}
 
-		return ResponseEntity.ok(notices);
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
 	}
 
 	/*
 	 * Get Notices Sorted by Number of Comments
 	 */
 	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Notice>> getNoticesByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
+	public ResponseEntity<List<NoticeDTO>> getNoticesByNumberOfComments(@RequestParam(defaultValue = "desc") String order) {
 		Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
 		List<Notice> notices = noticeService.getNoticesByNumberOfComments(direction);
 
@@ -150,7 +159,9 @@ public class NoticeRestController {
 			return ResponseEntity.noContent().header("message", "No notices found").build();
 		}
 
-		return ResponseEntity.ok(notices);
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
 	}
 
 	/*
@@ -158,7 +169,7 @@ public class NoticeRestController {
 	 */
 	@GetMapping(value = "/year/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.year")
-	public ResponseEntity<List<Notice>> getNoticesByYear(@PathVariable("year") Integer year) {
+	public ResponseEntity<List<NoticeDTO>> getNoticesByYear(@PathVariable("year") Integer year) {
 		if (year == null || year < 1900 || year > Year.now().getValue()) {
 			return ResponseEntity.badRequest().header("message", "Invalid year: " + year).build();
 		}
@@ -169,7 +180,9 @@ public class NoticeRestController {
 			return ResponseEntity.noContent().header("message", "No notices found for year: " + year).build();
 		}
 
-		return ResponseEntity.ok(notices);
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
 	}
 
 	/*
@@ -177,7 +190,7 @@ public class NoticeRestController {
 	 */
 	@GetMapping(value = "/year/{year}/month/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.year.month")
-	public ResponseEntity<List<Notice>> getNoticesByYear(@PathVariable("year") Integer year,
+	public ResponseEntity<List<NoticeDTO>> getNoticesByYear(@PathVariable("year") Integer year,
 			@PathVariable("month") Integer month) {
 
 		if (year == null || year < 1900 || year > Year.now().getValue()) {
@@ -193,6 +206,8 @@ public class NoticeRestController {
 					.header("message", "No notices found for year: " + year + " and month: " + month).build();
 		}
 
-		return ResponseEntity.ok(notices);
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
 	}
 }

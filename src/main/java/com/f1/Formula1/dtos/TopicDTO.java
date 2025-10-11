@@ -17,6 +17,7 @@ public class TopicDTO {
 	}
       
     public TopicDTO(Topic topic) {
+    	super();
         this.id = topic.getId();
         this.date = topic.getDate();
         this.title = topic.getTitle();
