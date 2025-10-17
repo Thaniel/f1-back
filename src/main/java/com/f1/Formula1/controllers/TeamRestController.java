@@ -21,9 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f1.Formula1.dtos.DriverDTO;
 import com.f1.Formula1.dtos.TeamDTO;
+import com.f1.Formula1.entities.Driver;
 import com.f1.Formula1.entities.Team;
+import com.f1.Formula1.mappers.DriverMapper;
 import com.f1.Formula1.mappers.TeamMapper;
+import com.f1.Formula1.services.DriverService;
 import com.f1.Formula1.services.TeamService;
 
 import io.micrometer.core.annotation.Timed;
@@ -34,6 +38,8 @@ public class TeamRestController {
 
 	@Autowired
 	private TeamService teamService;
+	@Autowired
+	private DriverService driverService;
 
 	private String path = "/teams/";
 
@@ -158,5 +164,22 @@ public class TeamRestController {
 		List<TeamDTO> teamsDTOs = teams.stream().map(TeamMapper::toDTO).collect(Collectors.toList());
 
 		return ResponseEntity.ok(teamsDTOs);
+	}
+	
+	/*
+	 * Get Drivers by Team Id
+	 */
+	@GetMapping(value = "/{teamId}/drivers", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("drivers.by.team.id")
+	public ResponseEntity<List<DriverDTO>> getDriversByTeamId(@PathVariable Long teamId) {
+		List<Driver> drivers = driverService.getDriversByTeamId(teamId);
+
+		if (drivers.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No drivers found for team id: " + teamId).build();
+		}
+
+		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
+
+		return ResponseEntity.ok(driverDTOs);
 	}
 }

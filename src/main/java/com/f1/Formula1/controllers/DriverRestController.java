@@ -123,23 +123,6 @@ public class DriverRestController {
 	}
 
 	/*
-	 * Get Drivers by Team Id
-	 */
-	@GetMapping(value = "/team/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed("drivers.by.team.id")
-	public ResponseEntity<List<DriverDTO>> getDriversByTeamId(@PathVariable Long teamId) {
-		List<Driver> drivers = driverService.getDriversByTeamId(teamId);
-
-		if (drivers.isEmpty()) {
-			return ResponseEntity.noContent().header("message", "No drivers found for team id: " + teamId).build();
-		}
-
-		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
-
-		return ResponseEntity.ok(driverDTOs);
-	}
-
-	/*
 	 * Get Drivers Sorted by Points
 	 */
 	@GetMapping(value = "/sortedByPoints", produces = MediaType.APPLICATION_JSON_VALUE)
