@@ -1,10 +1,8 @@
 package com.f1.Formula1.dtos;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.f1.Formula1.entities.Team;
-import com.f1.Formula1.mappers.DriverMapper;
 
 public class TeamDTO {
 	

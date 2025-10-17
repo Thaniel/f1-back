@@ -110,8 +110,6 @@ public class TopicRestController {
 		return ResponseEntity.ok(topicDeleted);
 	}
 
-	//TODO get topics by user
-
 	/*
 	 * Get Topic sorted by Date
 	 */	

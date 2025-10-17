@@ -131,23 +131,6 @@ public class NoticeRestController {
 	}
 
 	/*
-	 * Get Notices by User Id
-	 */
-	@GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed("notices.by.user")
-	public ResponseEntity<List<NoticeDTO>> getNoticesByUserId(@PathVariable Long userId) {
-		List<Notice> notices = noticeService.getNoticesByUserId(userId);
-
-		if (notices.isEmpty()) {
-			return ResponseEntity.noContent().header("message", "No notices found for user id: " + userId).build();
-		}
-
-		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
-		
-		return ResponseEntity.ok(noticeDTOs);
-	}
-
-	/*
 	 * Get Notices Sorted by Number of Comments
 	 */
 	@GetMapping(value = "/sortedByComments", produces = MediaType.APPLICATION_JSON_VALUE)

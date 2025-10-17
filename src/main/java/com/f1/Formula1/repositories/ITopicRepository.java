@@ -9,6 +9,8 @@ import com.f1.Formula1.entities.Topic;
 
 public interface ITopicRepository extends JpaRepository<Topic, Long>{
 
+	List<Topic> findByUserId(Long userId);
+	
     @Query("SELECT t FROM Topic t LEFT JOIN t.comments c GROUP BY t ORDER BY COUNT(c) DESC")
     List<Topic> findAllOrderByCommentCountDesc();
 

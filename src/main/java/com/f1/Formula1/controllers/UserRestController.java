@@ -19,7 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f1.Formula1.dtos.NoticeDTO;
+import com.f1.Formula1.dtos.TopicDTO;
+import com.f1.Formula1.entities.Notice;
+import com.f1.Formula1.entities.Topic;
 import com.f1.Formula1.entities.User;
+import com.f1.Formula1.mappers.NoticeMapper;
+import com.f1.Formula1.mappers.TopicMapper;
+import com.f1.Formula1.services.NoticeService;
+import com.f1.Formula1.services.TopicService;
 import com.f1.Formula1.services.UserService;
 
 import io.micrometer.core.annotation.Timed;
@@ -31,6 +39,12 @@ public class UserRestController {
 
 	@Autowired // Spring automatically inject an instance of the object
 	private UserService userService;
+	
+	@Autowired
+	private NoticeService noticeService;
+	
+	@Autowired
+	private TopicService topicService;
 
 	private String path = "/users/";
 
@@ -146,6 +160,36 @@ public class UserRestController {
 	}
 	
 	/*
-	 * TODO Get Topic by User Id
+	 * Get Notices by User Id
 	 */
+	@GetMapping(value = "/{userId}/notices", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.by.user")
+	public ResponseEntity<List<NoticeDTO>> getNoticesByUserId(@PathVariable Long userId) {
+		List<Notice> notices = noticeService.getNoticesByUserId(userId);
+
+		if (notices.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No notices found for user id: " + userId).build();
+		}
+
+		List<NoticeDTO> noticeDTOs = NoticeMapper.toDTOList(notices);
+		
+		return ResponseEntity.ok(noticeDTOs);
+	}
+	
+	/*
+	 * Get Topics by User Id
+	 */
+	@GetMapping(value = "/{userId}/topics", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed("notices.by.user")
+	public ResponseEntity<List<TopicDTO>> getTopicsByUserId(@PathVariable Long userId) {
+		List<Topic> topics = topicService.getTopicsByUserId(userId);
+
+		if (topics.isEmpty()) {
+			return ResponseEntity.noContent().header("message", "No topics found for user id: " + userId).build();
+		}
+
+		List<TopicDTO> topicDTOs = TopicMapper.toDTOList(topics);
+		
+		return ResponseEntity.ok(topicDTOs);
+	}
 }
