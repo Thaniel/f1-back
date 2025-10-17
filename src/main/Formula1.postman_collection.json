@@ -1,0 +1,1349 @@
+{
+	"info": {
+		"_postman_id": "8b9278d5-5acc-4c4e-9f72-ef280cd8aca3",
+		"name": "Formula1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34256774"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new@email.com\",\r\n    \"userName\": \"newUser\",\r\n    \"firstName\": \"Thaniel\",\r\n    \"lastName\": \"Herraez\",\r\n    \"birthDate\": \"1955-01-01T23:00:00.000+00:00\",\r\n    \"country\": \"Spain\",\r\n    \"admin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"email\": \"updated@email.com\",\r\n    \"userName\": \"updated\",\r\n    \"firstName\": \"updated\",\r\n    \"lastName\": \"updated\",\r\n    \"birthDate\": \"1955-01-01T23:00:00.000+00:00\",\r\n    \"country\": \"Spain\",\r\n    \"admin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/search?username=mikeSmith",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "mikeSmith"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "paged",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/paged?page=1&size=2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"paged"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "noticesByUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/1/notices",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"notices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "topicsByUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/1/topics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"topics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Races",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/races",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/races/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grandPrixName\": \"Monaco Grand Prix\",\r\n  \"firstAppearance\": 1929,\r\n  \"raceDistance\": 260.52,\r\n  \"circuitName\": \"Circuit de Monaco\",\r\n  \"description\": \"The Monaco Grand Prix is one of the most prestigious automobile races in the world, held on the narrow streets of Monte Carlo.\",\r\n  \"country\": \"Monaco\",\r\n  \"image\": \"https://example.com/images/monaco-grand-prix.jpg\",\r\n  \"record\": \"1:10.166 by Lewis Hamilton (2019)\",\r\n  \"laps\": 78,\r\n  \"circuitLength\": 3.337,\r\n  \"raceDate\": \"2025-05-25T14:00:00Z\",\r\n  \"qualifyingDate\": \"2025-05-24T15:00:00Z\",\r\n  \"firstPracticeDate\": \"2025-05-23T10:00:00Z\",\r\n  \"secondPracticeDate\": \"2025-05-23T14:00:00Z\",\r\n  \"thirdPracticeDate\": \"2025-05-24T11:00:00Z\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/races",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"grandPrixName\": \"Japanese Grand Prix\",\r\n  \"firstAppearance\": 1976,\r\n  \"raceDistance\": 307.471,\r\n  \"circuitName\": \"Suzuka International Racing Course\",\r\n  \"description\": \"The Japanese Grand Prix at Suzuka is known for its challenging figure-eight layout and passionate fans.\",\r\n  \"country\": \"Japan\",\r\n  \"image\": \"https://example.com/images/japanese-grand-prix.jpg\",\r\n  \"record\": \"1:27.064 by Lewis Hamilton (2019)\",\r\n  \"laps\": 53,\r\n  \"circuitLength\": 5.807,\r\n  \"raceDate\": \"2024-05-25T14:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/races/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/races/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/races/sorted?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races",
+								"sorted"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byCountry",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/races/search?country=japan",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"races",
+								"search"
+							],
+							"query": [
+								{
+									"key": "country",
+									"value": "japan"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Aston Martin\",\r\n    \"fullName\": \"Aston Martin Aramco F1 Team\",\r\n    \"colorCode\": \"#01665e\",\r\n    \"description\": \"...\",\r\n    \"teamPrincipal\": \"Mike Krack\",\r\n    \"carImage\": \"astonmartin_car.png\",\r\n    \"logoImage\": \"astonmartin_logo.png\",\r\n    \"titles\": 0,\r\n    \"points\": 69,\r\n    \"drivers\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/teams",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"Ferrari update\",\r\n    \"fullName\": \"Scuderia Ferrari\",\r\n    \"colorCode\": \"#ef1a2d\",\r\n    \"description\": \"El equipo más legendario de la F1\",\r\n    \"teamPrincipal\": \"Fred Vasseur\",\r\n    \"carImage\": \"ferrari_car.png\",\r\n    \"logoImage\": \"ferrari_logo.png\",\r\n    \"titles\": 16,\r\n    \"points\": 9100,\r\n    \"drivers\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/teams/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByPoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams/sortedByPoints?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"sortedByPoints"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams/search?name=bull",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "bull"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "driversByTeam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/teams/1/drivers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"teams",
+								"1",
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Drivers",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/drivers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/drivers/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"xx\",\r\n    \"lastName\": \"yy\",\r\n    \"country\": \"new\",\r\n    \"birthDate\": \"2005-09-29T22:00:00.000+00:00\",\r\n    \"points\": 0,\r\n    \"titles\": 0,\r\n    \"image\": \"new_driver.png\",\r\n    \"team\": {\r\n        \"id\": 3,\r\n        \"name\": \"Ferrari\",\r\n        \"fullName\": \"Scuderia Ferrari\",\r\n        \"colorCode\": \"#ef1a2d\",\r\n        \"description\": \"El equipo más legendario de la F1\",\r\n        \"teamPrincipal\": \"Fred Vasseur\",\r\n        \"carImage\": \"ferrari_car.png\",\r\n        \"logoImage\": \"ferrari_logo.png\",\r\n        \"titles\": 16,\r\n        \"points\": 9100\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/drivers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"firstName\": \"max\",\r\n    \"lastName\": \"verstapp\",\r\n    \"country\": \"Updated\",\r\n    \"birthDate\": \"2005-09-29T22:00:00.000+00:00\",\r\n    \"points\": 69,\r\n    \"titles\": 10,\r\n    \"image\": \"updated.png\",\r\n    \"team\": {\r\n        \"id\": 3,\r\n        \"name\": \"Ferrari\",\r\n        \"fullName\": \"Scuderia Ferrari\",\r\n        \"colorCode\": \"#ef1a2d\",\r\n        \"description\": \"El equipo más legendario de la F1\",\r\n        \"teamPrincipal\": \"Fred Vasseur\",\r\n        \"carImage\": \"ferrari_car.png\",\r\n        \"logoImage\": \"ferrari_logo.png\",\r\n        \"titles\": 16,\r\n        \"points\": 9100\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/drivers/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/drivers/6",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByPoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/drivers/sortedByPoints?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers",
+								"sortedByPoints"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byNameAndLastName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/drivers/search?firstName=max&lastName=verstapp",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"drivers",
+								"search"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "max"
+								},
+								{
+									"key": "lastName",
+									"value": "verstapp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notices",
+			"item": [
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/notices/2/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"notices",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2025-01-09T23:00:00.000+00:00\",\r\n    \"text\": \"New comment text 1... N\",\r\n    \"user\": {\r\n        \"id\": 3,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    },\r\n    \"noticeId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/notices/2/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"notices",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sortedByDate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/notices/2/comments/sorted?order=asc",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"notices",
+										"2",
+										"comments",
+										"sorted"
+									],
+									"query": [
+										{
+											"key": "order",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/notices",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/notices/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2025-01-08T23:00:00.000+00:00\",\r\n    \"summary\": \"New notice\",\r\n    \"text\": \"Text...\",\r\n    \"title\": \"Title...\",\r\n    \"image\": \"image_url.jpg\",\r\n    \"user\": {\r\n        \"id\": 1,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/notices",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"date\": \"2022-01-08T23:00:00.000+00:00\",\r\n    \"summary\": \"Update notice\",\r\n    \"text\": \"Update Text...\",\r\n    \"title\": \"Update Title...\",\r\n    \"image\": \"update_image_url.jpg\",\r\n    \"user\": {\r\n        \"id\": 2,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/notices/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/notices/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByDate",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "order",
+								"value": "desc",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/notices/sortedByDate?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"sortedByDate"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByComments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/notices/sortedByComments?order=desc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"sortedByComments"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byYear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/notices/year/2024",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"notices",
+								"year",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byYearAndMonth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/notices/year/2025/month/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notices",
+								"year",
+								"2025",
+								"month",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Topics",
+			"item": [
+				{
+					"name": "TopicComments",
+					"item": [
+						{
+							"name": "all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/topics/2/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"topics",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2025-01-08T23:00:00.000+00:00\",\r\n    \"text\": \"New comment text 1... T\",\r\n    \"user\": {\r\n        \"id\": 3,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    },\r\n    \"topicId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/topics/2/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"topics",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sortedByDate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/topics/1/comments/sorted?order=asc",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"topics",
+										"1",
+										"comments",
+										"sorted"
+									],
+									"query": [
+										{
+											"key": "order",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/topics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/topics/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2025-09-09T23:00:00.000+00:00\",\r\n    \"title\": \"New topic title\",\r\n    \"user\": {\r\n        \"id\": 1,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/topics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"date\": \"2025-09-09T23:00:00.000+00:00\",\r\n    \"title\": \"Updated topic title\",\r\n    \"user\": {\r\n        \"id\": 1,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/topics/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/topics/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/topics/sortedByDate?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics",
+								"sortedByDate"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortedByComments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/topics/sortedByComments?order=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"topics",
+								"sortedByComments"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/comments",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/comments/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"date\": \"2025-01-11T23:00:00.000+00:00\",\r\n    \"text\": \"Updated comment text 1...\",\r\n    \"user\": {\r\n        \"id\": 2,\r\n        \"email\": \"example@email.com\",\r\n        \"userName\": \"exampleUser\",\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"birthDate\": \"1989-12-31T23:00:00.000+00:00\",\r\n        \"country\": \"USA\",\r\n        \"admin\": false\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/comments/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"comments",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/comments/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"comments",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metrics",
+			"item": [
+				{
+					"name": "Actuator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/actuator/metrics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
