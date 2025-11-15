@@ -38,18 +38,68 @@ public class Driver implements Serializable, ICopyable<Driver> {
 		super();
 	}
 
-	public Driver(Long id, String firstName, String lastName, String country, Date birthDate, int points, int titles,
-			String image, Team team) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.country = country;
-		this.birthDate = birthDate;
-		this.points = points;
-		this.titles = titles;
-		this.image = image;
-		this.team = team;
+	public static class Builder {
+		private Long id;
+		private String firstName;
+		private String lastName;
+		private String country;
+		private Date birthDate;
+		private int points;
+		private int titles;
+		private String image;
+
+		public Builder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder firstName(String firstName) {
+			this.firstName = firstName;
+			return this;
+		}
+
+		public Builder lastName(String lastName) {
+			this.lastName = lastName;
+			return this;
+		}
+
+		public Builder country(String country) {
+			this.country = country;
+			return this;
+		}
+
+		public Builder birthDate(Date birthDate) {
+			this.birthDate = birthDate;
+			return this;
+		}
+
+		public Builder points(int points) {
+			this.points = points;
+			return this;
+		}
+
+		public Builder titles(int titles) {
+			this.titles = titles;
+			return this;
+		}
+
+		public Builder image(String image) {
+			this.image = image;
+			return this;
+		}
+
+		public Driver build() {
+			Driver driver = new Driver();
+			driver.id = this.id;
+			driver.firstName = this.firstName;
+			driver.lastName = this.lastName;
+			driver.country = this.country;
+			driver.birthDate = this.birthDate;
+			driver.points = this.points;
+			driver.titles = this.titles;
+			driver.image = this.image;
+			return driver;
+		}
 	}
 
 	public Long getId() {

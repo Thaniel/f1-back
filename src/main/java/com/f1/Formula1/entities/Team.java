@@ -31,28 +31,90 @@ public class Team implements Serializable, ICopyable<Team> {
 	private String logoImage;
 	private int titles;
 	private int points;
-	
+
 	@OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
 	private List<Driver> drivers;
-	
+
 	public Team() {
 		super();
 	}
 
-	public Team(Long id, String name, String fullName, String colorCode, String description, String teamPrincipal,
-			String carImage, String logoImage, int titles, int points, List<Driver> drivers) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.fullName = fullName;
-		this.colorCode = colorCode;
-		this.description = description;
-		this.teamPrincipal = teamPrincipal;
-		this.carImage = carImage;
-		this.logoImage = logoImage;
-		this.titles = titles;
-		this.points = points;
-		this.drivers = drivers;
+	public static class Builder {
+		private Long id;
+		private String name;
+		private String fullName;
+		private String colorCode;
+		private String description;
+		private String teamPrincipal;
+		private String carImage;
+		private String logoImage;
+		private int titles;
+		private int points;
+
+		public Builder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder name(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Builder fullName(String fullName) {
+			this.fullName = fullName;
+			return this;
+		}
+
+		public Builder colorCode(String colorCode) {
+			this.colorCode = colorCode;
+			return this;
+		}
+
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
+
+		public Builder teamPrincipal(String teamPrincipal) {
+			this.teamPrincipal = teamPrincipal;
+			return this;
+		}
+
+		public Builder carImage(String carImage) {
+			this.carImage = carImage;
+			return this;
+		}
+
+		public Builder logoImage(String logoImage) {
+			this.logoImage = logoImage;
+			return this;
+		}
+
+		public Builder titles(int titles) {
+			this.titles = titles;
+			return this;
+		}
+
+		public Builder points(int points) {
+			this.points = points;
+			return this;
+		}
+
+		public Team build() {
+			Team team = new Team();
+			team.id = this.id;
+			team.name = this.name;
+			team.fullName = this.fullName;
+			team.colorCode = this.colorCode;
+			team.description = this.description;
+			team.teamPrincipal = this.teamPrincipal;
+			team.carImage = this.carImage;
+			team.logoImage = this.logoImage;
+			team.titles = this.titles;
+			team.points = this.points;
+			return team;
+		}
 	}
 
 	public Long getId() {

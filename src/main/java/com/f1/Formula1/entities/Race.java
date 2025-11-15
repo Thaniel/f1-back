@@ -10,9 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity 
-@Table(name = "races") 
-public class Race implements Serializable, ICopyable<Race>{
+@Entity
+@Table(name = "races")
+public class Race implements Serializable, ICopyable<Race> {
 
 	private static final long serialVersionUID = 4319149267041274010L;
 
@@ -20,7 +20,6 @@ public class Race implements Serializable, ICopyable<Race>{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
-	
 	private String grandPrixName;
 	private int firstAppearance;
 	private Double raceDistance;
@@ -36,32 +35,130 @@ public class Race implements Serializable, ICopyable<Race>{
 	private Date firstPracticeDate;
 	private Date secondPracticeDate;
 	private Date thirdPracticeDate;
-	
+
 	public Race() {
 		super();
 	}
 
-	public Race(Long id, String grandPrixName, int firstAppearance, Double raceDistance, String circuitName,
-			String description, String country, String image, int laps, Double circuitLength, Date raceDate,
-			Date qualifyingDate, Date firstPracticeDate, Date secondPracticeDate, Date thirdPracticeDate,
-			String record) {
-		super();
-		this.id = id;
-		this.grandPrixName = grandPrixName;
-		this.firstAppearance = firstAppearance;
-		this.raceDistance = raceDistance;
-		this.circuitName = circuitName;
-		this.description = description;
-		this.country = country;
-		this.image = image;
-		this.laps = laps;
-		this.circuitLength = circuitLength;
-		this.raceDate = raceDate;
-		this.qualifyingDate = qualifyingDate;
-		this.firstPracticeDate = firstPracticeDate;
-		this.secondPracticeDate = secondPracticeDate;
-		this.thirdPracticeDate = thirdPracticeDate;
-		this.record = record;
+	public static class Builder {
+		private Long id;
+		private String grandPrixName;
+		private int firstAppearance;
+		private Double raceDistance;
+		private String circuitName;
+		private String description;
+		private String country;
+		private String image;
+		private String record;
+		private int laps;
+		private Double circuitLength;
+		private Date raceDate;
+		private Date qualifyingDate;
+		private Date firstPracticeDate;
+		private Date secondPracticeDate;
+		private Date thirdPracticeDate;
+
+		public Builder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder grandPrixName(String grandPrixName) {
+			this.grandPrixName = grandPrixName;
+			return this;
+		}
+
+		public Builder firstAppearance(int firstAppearance) {
+			this.firstAppearance = firstAppearance;
+			return this;
+		}
+
+		public Builder raceDistance(Double raceDistance) {
+			this.raceDistance = raceDistance;
+			return this;
+		}
+
+		public Builder circuitName(String circuitName) {
+			this.circuitName = circuitName;
+			return this;
+		}
+
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
+
+		public Builder country(String country) {
+			this.country = country;
+			return this;
+		}
+
+		public Builder image(String image) {
+			this.image = image;
+			return this;
+		}
+
+		public Builder record(String record) {
+			this.record = record;
+			return this;
+		}
+
+		public Builder laps(int laps) {
+			this.laps = laps;
+			return this;
+		}
+
+		public Builder circuitLength(Double circuitLength) {
+			this.circuitLength = circuitLength;
+			return this;
+		}
+
+		public Builder raceDate(Date raceDate) {
+			this.raceDate = raceDate;
+			return this;
+		}
+
+		public Builder qualifyingDate(Date qualifyingDate) {
+			this.qualifyingDate = qualifyingDate;
+			return this;
+		}
+
+		public Builder firstPracticeDate(Date firstPracticeDate) {
+			this.firstPracticeDate = firstPracticeDate;
+			return this;
+		}
+
+		public Builder secondPracticeDate(Date secondPracticeDate) {
+			this.secondPracticeDate = secondPracticeDate;
+			return this;
+		}
+
+		public Builder thirdPracticeDate(Date thirdPracticeDate) {
+			this.thirdPracticeDate = thirdPracticeDate;
+			return this;
+		}
+
+		public Race build() {
+			Race race = new Race();
+			race.id = this.id;
+			race.grandPrixName = this.grandPrixName;
+			race.firstAppearance = this.firstAppearance;
+			race.raceDistance = this.raceDistance;
+			race.circuitName = this.circuitName;
+			race.description = this.description;
+			race.country = this.country;
+			race.image = this.image;
+			race.record = this.record;
+			race.laps = this.laps;
+			race.circuitLength = this.circuitLength;
+			race.raceDate = this.raceDate;
+			race.qualifyingDate = this.qualifyingDate;
+			race.firstPracticeDate = this.firstPracticeDate;
+			race.secondPracticeDate = this.secondPracticeDate;
+			race.thirdPracticeDate = this.thirdPracticeDate;
+			return race;
+		}
+
 	}
 
 	public Long getId() {

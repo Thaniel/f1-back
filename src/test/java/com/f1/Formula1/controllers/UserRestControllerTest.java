@@ -64,9 +64,10 @@ public class UserRestControllerTest {
 
 	@BeforeEach
 	void setUp() {
-		userTest = new User(1L, "John", "Doe", new Date(), false, "john@example.com", "USA", "johndoe");
-		noticeTest = new Notice(1L, new Date(), "Summary", "Text", "Notice title", null, userTest);
-		topicTest = new Topic(1L, new Date(), "Topic title", userTest);
+		Date date  = new Date();
+		userTest = new User(1L, "John", "Doe", date, false, "john@example.com", "USA", "johndoe");
+		noticeTest = new Notice(1L, date, "Summary", "Text", "Notice title", null, userTest);
+		topicTest = new Topic(1L, date, "Topic title", userTest);
 	}
 
 	/*
