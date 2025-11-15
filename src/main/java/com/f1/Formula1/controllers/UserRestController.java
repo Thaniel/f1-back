@@ -131,10 +131,6 @@ public class UserRestController {
 	@Timed("users.by.username")
 	public ResponseEntity<User> getUserByUsername(@RequestParam(value = "username") String username) {
 		User user = userService.getUserByUsername(username);
-		
-		if(username != null && username != "") {
-			user = userService.getUserByUsername(username);
-		}
 
 		if (user == null) {
 			return ResponseEntity.noContent().header("message", "User not found with username: " + username).build();

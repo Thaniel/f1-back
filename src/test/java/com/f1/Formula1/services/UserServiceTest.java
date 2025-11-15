@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,37 +35,53 @@ public class UserServiceTest {
 		MockitoAnnotations.openMocks(this); // Initialize the mocks
 		userTest = new User(1L, "John", "Doe", new Date(), false, "john@example.com", "USA", "johndoe");
 	}
-
+	
 	/*
-	 * Verify that the service returns the correct user name.
+	 * getEntityId
+	 */
+    @Test
+    void getEntityId_returnsCorrectId() {
+        Long id = userService.getEntityId(userTest);
+
+        assertThat(id).isEqualTo(1L);
+    }
+	
+	/*
+	 * getUserByUsername
 	 */
 	@Test
-	void getUserByUsername_returnUser() {
+	void getUserByUsername_found() {
 		// GIVEN - Mock behavior
-		when(userRepository.findByUserName("johndoe")).thenReturn(userTest);
+		when(userRepository.findByUserName(userTest.getUserName())).thenReturn(userTest);
 
 		// WHEN - Execute the method to be tested
-		User result = userService.getUserByUsername("johndoe");
+		User result = userService.getUserByUsername(userTest.getUserName());
 
 		// THEN - Check result
 		assertThat(result).isNotNull();
-		assertThat(result.getEmail()).isEqualTo(userTest.getEmail());
-		assertThat(result.getFirstName()).isEqualTo(userTest.getFirstName());
-		assertThat(result.getLastName()).isEqualTo(userTest.getLastName());
-		assertThat(result.getBirthDate()).isEqualTo(userTest.getBirthDate());
-		assertThat(result.isAdmin()).isEqualTo(userTest.isAdmin());
-		assertThat(result.getCountry()).isEqualTo(userTest.getCountry());
-		assertThat(result.getUserName()).isEqualTo(userTest.getUserName());
+		assertThat(result.getId()).isEqualTo(1L);
+		assertThat(result.getEmail()).isEqualTo("john@example.com");
+		assertThat(result.getUserName()).isEqualTo("johndoe");
 
 		// Verify that the mock was called correctly
-		verify(userRepository).findByUserName("johndoe");
+		verify(userRepository).findByUserName(userTest.getUserName());
 	}
+	
+    @Test
+    void getUserByUsername_notFound() {
+        when(userRepository.findByUserName("name")).thenReturn(null);
+
+        User result = userService.getUserByUsername("name");
+
+        assertThat(result).isNull();
+        verify(userRepository).findByUserName("name");
+    }
 
 	/*
-	 * Verify the pagination
+	 * getAllPaged
 	 */
 	@Test
-	void getAllPaged_returnUsersPaginated() {
+	void getAllPaged_returnsPage() {
 		// GIVEN
 		Page<User> fakePage = new PageImpl<>(List.of(userTest));
 		when(userRepository.findAll(any(PageRequest.class))).thenReturn(fakePage);
@@ -76,16 +91,17 @@ public class UserServiceTest {
 
 		// THEN
 		assertThat(result).isNotEmpty();
-		assertThat(result.getContent().get(0).getUserName()).isEqualTo(userTest.getUserName());
+        assertThat(result).hasSize(1);
+		assertThat(result.getContent().get(0).getUserName()).isEqualTo("johndoe");
 
 		verify(userRepository).findAll(any(PageRequest.class));
 	}
 	
-	// Verify when there are no results
+	
     @Test
-    void getAllPaged_withoutUsersReturnsEmptyPage() {
+    void getAllPaged_returnsEmptyPage() {
         // GIVEN
-        Page<User> emptyPage = new PageImpl<>(Collections.emptyList());
+        Page<User> emptyPage = Page.empty();
         when(userRepository.findAll(any(PageRequest.class))).thenReturn(emptyPage);
 
         // WHEN
