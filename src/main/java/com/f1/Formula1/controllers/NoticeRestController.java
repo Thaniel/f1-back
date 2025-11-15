@@ -153,7 +153,8 @@ public class NoticeRestController {
 	@GetMapping(value = "/year/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.year")
 	public ResponseEntity<List<NoticeDTO>> getNoticesByYear(@PathVariable("year") Integer year) {
-		if (year == null || year < 1900 || year > Year.now().getValue()) {
+		int currentYear = Year.now().getValue();
+		if (year == null || year < 1900 || year > currentYear) {
 			return ResponseEntity.badRequest().header("message", "Invalid year: " + year).build();
 		}
 
@@ -175,10 +176,12 @@ public class NoticeRestController {
 	@Timed("notices.by.year.month")
 	public ResponseEntity<List<NoticeDTO>> getNoticesByYear(@PathVariable("year") Integer year,
 			@PathVariable("month") Integer month) {
-
-		if (year == null || year < 1900 || year > Year.now().getValue()) {
+		int currentYear = Year.now().getValue();
+		
+		if (year == null || year < 1900 || year > currentYear) {
 			return ResponseEntity.badRequest().header("message", "Invalid year: " + year).build();
-		} else if (month == null || month < 1 || month > 12) {
+		}
+		if (month == null || month < 1 || month > 12) {
 			return ResponseEntity.badRequest().header("message", "Invalid month: " + month).build();
 		}
 

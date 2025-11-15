@@ -2,7 +2,6 @@ package com.f1.Formula1.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -146,22 +145,24 @@ public class DriverRestController {
 	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<DriverDTO>> getDriversByFirstnameAndLastName(@RequestParam("firstName") String firstName,
 			@RequestParam(value = "lastName", required = false) String lastName) {
-		List<Driver> drivers = new ArrayList<Driver>();
+		List<Driver> drivers;
 
-		if (lastName != null && lastName != "" && firstName != null && firstName != "") {
+		if (lastName != null && !lastName.isBlank()) {
 			drivers = driverService.getDriversByNameAndLastName(firstName, lastName);
-		} else if (firstName != null && firstName != "") {
+		} else {
 			drivers = driverService.getDriversByName(firstName);
 		}
 
 		if (drivers.isEmpty()) {
-			return ResponseEntity.noContent().header("message",
-					"No drivers found for name: " + firstName + (lastName != null ? " and surname: " + lastName : ""))
-					.build();
+			String message = "No drivers found for name: " + firstName
+	                + (lastName != null && !lastName.isBlank() ? " and surname: " + lastName : "");
+			return ResponseEntity.noContent().header("message", message).build();
 		}
 
 		List<DriverDTO> driverDTOs = drivers.stream().map(DriverMapper::toDTO).collect(Collectors.toList());
 
 		return ResponseEntity.ok(driverDTOs);
 	}
+	
+	
 }

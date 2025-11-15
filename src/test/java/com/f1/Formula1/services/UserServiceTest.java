@@ -109,6 +109,6 @@ public class UserServiceTest {
 
         // THEN
         assertThat(result).isEmpty();
-        verify(userRepository).findAll(any(PageRequest.class));
-    }
+		verify(userRepository).findAll(any(PageRequest.class));
+	}
 }
