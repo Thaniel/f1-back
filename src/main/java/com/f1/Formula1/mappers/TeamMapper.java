@@ -14,11 +14,16 @@ public class TeamMapper {
 		TeamDTO dto = null;
 
 		if (team != null) {
-			List<DriverWithoutTeamDTO> driverWithoutTeamDTOs = team.getDrivers().stream().map(DriverMapper::toDTOWithoutTeam)
-					.collect(Collectors.toList());
+			List<DriverWithoutTeamDTO> driverWithoutTeamDTOs = null;
+			
+			if (team.getDrivers() != null) {
+				driverWithoutTeamDTOs = team.getDrivers().stream().map(DriverMapper::toDTOWithoutTeam)
+						.collect(Collectors.toList());
+			}
+			
 			dto = new TeamDTO(team, driverWithoutTeamDTOs);
 		}
-		
+
 		return dto;
 	}
 
@@ -26,9 +31,9 @@ public class TeamMapper {
 		TeamWithoutDriversDTO dto = null;
 
 		if (team != null) {
-			dto = new TeamWithoutDriversDTO(team); 
+			dto = new TeamWithoutDriversDTO(team);
 		}
-		
+
 		return dto;
 	}
 }

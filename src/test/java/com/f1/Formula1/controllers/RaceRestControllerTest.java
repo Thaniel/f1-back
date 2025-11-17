@@ -167,7 +167,7 @@ public class RaceRestControllerTest {
 	 * DELETE /races/{id}
 	 */
 	@Test
-	void deleteUser_found() throws Exception {
+	void deleteRace_found() throws Exception {
 		when(raceService.delete(1L)).thenReturn(raceTest1);
 
 		mockMvc.perform(delete("/races/1"))
@@ -182,7 +182,7 @@ public class RaceRestControllerTest {
 	 * Not found
 	 */
 	@Test
-	void deleteUser_notFound() throws Exception {
+	void deleteRace_notFound() throws Exception {
 		when(raceService.delete(1L)).thenReturn(null);
 
 		mockMvc.perform(delete("/races/1"))
