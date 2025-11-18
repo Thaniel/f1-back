@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +59,7 @@ public class RaceServiceTest {
 	@Test
 	void getRacesSortedByDate_returnsRacesInAscOrder() {
 		when(raceRepository.findAll(Sort.by(Sort.Direction.ASC, "raceDate")))
-         .thenReturn(Arrays.asList(raceTest2, raceTest1));
+         .thenReturn(List.of(raceTest2, raceTest1));
 		
         List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.ASC);
 
@@ -79,7 +78,7 @@ public class RaceServiceTest {
 	@Test
 	void getRacesSortedByDate_returnsRacesInDescOrder() {
 		when(raceRepository.findAll(Sort.by(Sort.Direction.DESC, "raceDate")))
-         .thenReturn(Arrays.asList(raceTest1, raceTest2));
+         .thenReturn(List.of(raceTest1, raceTest2));
 		
         List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.DESC);
 

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +51,7 @@ public class TeamServiceTest {
 	@Test
 	void getTeamsSortedByPoints_returnTeamsInAscOrder() {
 		when(teamRepository.findAll(Sort.by(Sort.Direction.ASC, "points")))
-				.thenReturn(Arrays.asList(teamTest2, teamTest1));
+				.thenReturn(List.of(teamTest2, teamTest1));
 
 		List<Team> result = teamService.getTeamsSortedByPoints(Sort.Direction.ASC);
 
@@ -67,7 +66,7 @@ public class TeamServiceTest {
 	@Test
 	void getTeamsSortedByPoints_returnTeamsInDescOrder() {
 		when(teamRepository.findAll(Sort.by(Sort.Direction.DESC, "points")))
-				.thenReturn(Arrays.asList(teamTest1, teamTest2));
+				.thenReturn(List.of(teamTest1, teamTest2));
 
 		List<Team> result = teamService.getTeamsSortedByPoints(Sort.Direction.DESC);
 
