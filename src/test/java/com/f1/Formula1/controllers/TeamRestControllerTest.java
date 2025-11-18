@@ -50,7 +50,6 @@ public class TeamRestControllerTest {
 	void setUp() {
 		teamTest1 = new Team.Builder().id(1L).name("Red Bull").points(10).build();
 		teamTest2 = new Team.Builder().id(2L).name("Mercedes").points(8).build();
-		
 
 		teamTest1Update = new Team.Builder().id(1L).name("RB").points(100).build();
 	}
