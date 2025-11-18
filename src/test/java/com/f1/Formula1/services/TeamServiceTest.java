@@ -60,6 +60,8 @@ public class TeamServiceTest {
 		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getId()).isEqualTo(2l);
 		assertThat(result.get(1).getId()).isEqualTo(1l);
+
+		verify(teamRepository).findAll(Sort.by(Sort.Direction.ASC, "points"));
 	}
 
 	@Test
@@ -73,6 +75,8 @@ public class TeamServiceTest {
 		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getId()).isEqualTo(1l);
 		assertThat(result.get(1).getId()).isEqualTo(2l);
+		
+		verify(teamRepository).findAll(Sort.by(Sort.Direction.DESC, "points"));
 	}
 
 	@Test
