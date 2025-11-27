@@ -166,6 +166,7 @@ public class DriverRestControllerTest {
 		when(driverService.delete(1L)).thenReturn(driverTest1);
 
 		mockMvc.perform(delete("/drivers/1"))
+				.andExpect(status().isOk())	
                 .andExpect(jsonPath("$.id").value(1L));
 		
 		verify(driverService).delete(1L);

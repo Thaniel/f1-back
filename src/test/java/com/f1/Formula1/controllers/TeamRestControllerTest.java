@@ -169,6 +169,7 @@ public class TeamRestControllerTest {
 		when(teamService.delete(1L)).thenReturn(teamTest1);
 
 		mockMvc.perform(delete("/teams/1"))
+        		.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
 		
 		verify(teamService).delete(1L);

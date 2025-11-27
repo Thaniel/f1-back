@@ -33,14 +33,18 @@ public class RaceServiceTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		LocalDate localDate1 = LocalDate.of(2025, 7, 25);
-		LocalDate localDate2 = LocalDate.of(2025, 2, 10);
+		Date date1 = toDate(LocalDate.of(2025, 7, 25));
+		Date date2 = toDate(LocalDate.of(2025, 2, 10));
 
-		raceTest1 = new Race.Builder().id(1L).grandPrixName("Monaco GP").country("Monaco")
-				.raceDate(Date.from(localDate1.atStartOfDay(ZoneId.systemDefault()).toInstant())).laps(78).build();
+		raceTest1 = new Race.Builder().id(1L).grandPrixName("Monaco GP").country("Monaco").raceDate(date1).laps(78)
+				.build();
 
-		raceTest2 = new Race.Builder().id(2L).grandPrixName("British GP").country("UK")
-				.raceDate(Date.from(localDate2.atStartOfDay(ZoneId.systemDefault()).toInstant())).laps(52).build();
+		raceTest2 = new Race.Builder().id(2L).grandPrixName("British GP").country("UK").raceDate(date2).laps(52)
+				.build();
+	}
+
+	private Date toDate(LocalDate localDate) {
+		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
 	/*
@@ -58,37 +62,34 @@ public class RaceServiceTest {
 	 */
 	@Test
 	void getRacesSortedByDate_returnsRacesInAscOrder() {
-		when(raceRepository.findAll(Sort.by(Sort.Direction.ASC, "raceDate")))
-         .thenReturn(List.of(raceTest2, raceTest1));
-		
-        List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.ASC);
+		when(raceRepository.findAll(Sort.by(Sort.Direction.ASC, "raceDate"))).thenReturn(List.of(raceTest2, raceTest1));
 
-		assertThat(result).isNotNull();       
+		List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.ASC);
+
+		assertThat(result).isNotNull();
 		assertThat(result).hasSize(2);
-        assertThat(result.get(0).getId()).isEqualTo(2L);
-        assertThat(result.get(0).getGrandPrixName()).isEqualTo("British GP");
-        assertThat(result.get(1).getId()).isEqualTo(1L);
-        assertThat(result.get(1).getGrandPrixName()).isEqualTo("Monaco GP");
-
+		assertThat(result.get(0).getId()).isEqualTo(2L);
+		assertThat(result.get(0).getGrandPrixName()).isEqualTo("British GP");
+		assertThat(result.get(1).getId()).isEqualTo(1L);
+		assertThat(result.get(1).getGrandPrixName()).isEqualTo("Monaco GP");
 
 		verify(raceRepository).findAll(Sort.by(Sort.Direction.ASC, "raceDate"));
 
 	}
-	
+
 	@Test
 	void getRacesSortedByDate_returnsRacesInDescOrder() {
 		when(raceRepository.findAll(Sort.by(Sort.Direction.DESC, "raceDate")))
-         .thenReturn(List.of(raceTest1, raceTest2));
-		
-        List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.DESC);
+				.thenReturn(List.of(raceTest1, raceTest2));
 
-		assertThat(result).isNotNull();       
+		List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.DESC);
+
+		assertThat(result).isNotNull();
 		assertThat(result).hasSize(2);
-        assertThat(result.get(0).getId()).isEqualTo(1L);
-        assertThat(result.get(0).getGrandPrixName()).isEqualTo("Monaco GP");
-        assertThat(result.get(1).getId()).isEqualTo(2L);
-        assertThat(result.get(1).getGrandPrixName()).isEqualTo("British GP");
-
+		assertThat(result.get(0).getId()).isEqualTo(1L);
+		assertThat(result.get(0).getGrandPrixName()).isEqualTo("Monaco GP");
+		assertThat(result.get(1).getId()).isEqualTo(2L);
+		assertThat(result.get(1).getGrandPrixName()).isEqualTo("British GP");
 
 		verify(raceRepository).findAll(Sort.by(Sort.Direction.DESC, "raceDate"));
 
@@ -96,12 +97,11 @@ public class RaceServiceTest {
 
 	@Test
 	void getRacesSortedByDate_notFound() {
-		when(raceRepository.findAll(Sort.by(Sort.Direction.DESC, "raceDate")))
-         .thenReturn(List.of());
-		
-        List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.DESC);
+		when(raceRepository.findAll(Sort.by(Sort.Direction.DESC, "raceDate"))).thenReturn(List.of());
 
-        assertThat(result).isEmpty();
+		List<Race> result = raceService.getRacesSortedByDate(Sort.Direction.DESC);
+
+		assertThat(result).isEmpty();
 
 		verify(raceRepository).findAll(Sort.by(Sort.Direction.DESC, "raceDate"));
 
@@ -110,29 +110,26 @@ public class RaceServiceTest {
 	/*
 	 * getRacesByCountry
 	 */
-    @Test
-    void getRacesByCountry_foundRaces() {
-        when(raceRepository.findByCountryContainingIgnoreCase("Monaco"))
-                .thenReturn(List.of(raceTest1));
+	@Test
+	void getRacesByCountry_foundRaces() {
+		when(raceRepository.findByCountryContainingIgnoreCase("Monaco")).thenReturn(List.of(raceTest1));
 
-        List<Race> result = raceService.getRacesByCountry("Monaco");
+		List<Race> result = raceService.getRacesByCountry("Monaco");
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getCountry()).isEqualTo("Monaco");
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).getCountry()).isEqualTo("Monaco");
 
-        verify(raceRepository).findByCountryContainingIgnoreCase("Monaco");
-    }
-    
-    
-    @Test
-    void getRacesByCountry_noRacesFound() {
-        when(raceRepository.findByCountryContainingIgnoreCase("Spain"))
-                .thenReturn(List.of());
+		verify(raceRepository).findByCountryContainingIgnoreCase("Monaco");
+	}
 
-        List<Race> result = raceService.getRacesByCountry("Spain");
+	@Test
+	void getRacesByCountry_noRacesFound() {
+		when(raceRepository.findByCountryContainingIgnoreCase("Spain")).thenReturn(List.of());
 
-        assertThat(result).isEmpty();
+		List<Race> result = raceService.getRacesByCountry("Spain");
 
-        verify(raceRepository).findByCountryContainingIgnoreCase("Spain");
-    }
+		assertThat(result).isEmpty();
+
+		verify(raceRepository).findByCountryContainingIgnoreCase("Spain");
+	}
 }

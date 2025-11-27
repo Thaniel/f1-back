@@ -36,24 +36,28 @@ public class RaceRestControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private RaceService raceService;	
-	
+	private RaceService raceService;
+
 	@Autowired
-	private ObjectMapper objectMapper; 
+	private ObjectMapper objectMapper;
 
 	private Race raceTest1;
 	private Race raceTest2;
 
 	@BeforeEach
 	void setUp() {
-		LocalDate localDate1 = LocalDate.of(2025, 7, 25);
-		LocalDate localDate2 = LocalDate.of(2025, 2, 10);
+		Date date1 = toDate(LocalDate.of(2025, 7, 25));
+		Date date2 = toDate(LocalDate.of(2025, 2, 10));
 
-		raceTest1 = new Race.Builder().id(1L).grandPrixName("Monaco GP").country("Monaco")
-				.raceDate(Date.from(localDate1.atStartOfDay(ZoneId.systemDefault()).toInstant())).laps(78).build();
+		raceTest1 = new Race.Builder().id(1L).grandPrixName("Monaco GP").country("Monaco").raceDate(date1).laps(78)
+				.build();
 
-		raceTest2 = new Race.Builder().id(2L).grandPrixName("British GP").country("UK")
-				.raceDate(Date.from(localDate2.atStartOfDay(ZoneId.systemDefault()).toInstant())).laps(52).build();
+		raceTest2 = new Race.Builder().id(2L).grandPrixName("British GP").country("UK").raceDate(date2).laps(52)
+				.build();
+	}
+
+	private Date toDate(LocalDate localDate) {
+		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
 	/*
@@ -96,12 +100,12 @@ public class RaceRestControllerTest {
 
 		mockMvc.perform(get("/races/1"))
 				.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+				.andExpect(jsonPath("$.id").value(1L))
 				.andExpect(jsonPath("$.grandPrixName").value("Monaco GP"));
-		
-        verify(raceService).getById(1L);
+
+		verify(raceService).getById(1L);
 	}
-	
+
 	/*
 	 * Not found
 	 */
@@ -112,10 +116,10 @@ public class RaceRestControllerTest {
 		mockMvc.perform(get("/races/1"))
 				.andExpect(status().isNoContent())
 				.andExpect(header().string("message", "Race not found with id: 1"));
-		
+
 		verify(raceService).getById(1L);
 	}
-	
+
 	/*
 	 * POST /races
 	 */
@@ -128,7 +132,7 @@ public class RaceRestControllerTest {
 				.andExpect(status().isCreated())
 				.andExpect(header().string("Location", "/races/1"))
 				.andExpect(jsonPath("$.grandPrixName").value("Monaco GP"));
-		
+
 		verify(raceService).create(any(Race.class));
 	}
 
@@ -142,12 +146,12 @@ public class RaceRestControllerTest {
 		mockMvc.perform(put("/races/1").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(raceTest1)))
 				.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+				.andExpect(jsonPath("$.id").value(1L))
 				.andExpect(jsonPath("$.grandPrixName").value("Monaco GP"));
-		
+
 		verify(raceService).update(any(Race.class));
 	}
-	
+
 	/*
 	 * Not found
 	 */
@@ -159,10 +163,10 @@ public class RaceRestControllerTest {
 				.content(objectMapper.writeValueAsString(raceTest1)))
 				.andExpect(status().isNotFound())
 				.andExpect(header().string("message", "Race not found with id: 1"));
-		
+
 		verify(raceService).update(any(Race.class));
 	}
-	
+
 	/*
 	 * DELETE /races/{id}
 	 */
@@ -172,9 +176,9 @@ public class RaceRestControllerTest {
 
 		mockMvc.perform(delete("/races/1"))
 				.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+				.andExpect(jsonPath("$.id").value(1L))
 				.andExpect(jsonPath("$.grandPrixName").value("Monaco GP"));
-		
+
 		verify(raceService).delete(1L);
 	}
 
@@ -188,10 +192,10 @@ public class RaceRestControllerTest {
 		mockMvc.perform(delete("/races/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(header().string("message", "Race not found with id: 1"));
-		
+
 		verify(raceService).delete(1L);
 	}
-	
+
 	/*
 	 * GET /races/sorted?order=asc
 	 */
@@ -205,10 +209,10 @@ public class RaceRestControllerTest {
 				.andExpect(jsonPath("$[0].grandPrixName").value("British GP"))
 				.andExpect(jsonPath("$[1].id").value(1L))
 				.andExpect(jsonPath("$[1].grandPrixName").value("Monaco GP"));
-		
+
 		verify(raceService).getRacesSortedByDate(Sort.Direction.ASC);
 	}
-	
+
 	/*
 	 * GET /races/sorted?order=desc
 	 */
@@ -222,10 +226,10 @@ public class RaceRestControllerTest {
 				.andExpect(jsonPath("$[0].grandPrixName").value("Monaco GP"))
 				.andExpect(jsonPath("$[1].id").value(2L))
 				.andExpect(jsonPath("$[1].grandPrixName").value("British GP"));
-		
+
 		verify(raceService).getRacesSortedByDate(Sort.Direction.DESC);
 	}
-	
+
 	/*
 	 * Not found
 	 */
@@ -236,11 +240,10 @@ public class RaceRestControllerTest {
 		mockMvc.perform(get("/races/sorted").param("order", "asc"))
 				.andExpect(status().isNoContent())
 				.andExpect(header().string("message", "No races found"));
-		
+
 		verify(raceService).getRacesSortedByDate(Sort.Direction.ASC);
 	}
-	
-	
+
 	/*
 	 * GET /races/search?country=Monaco
 	 */
@@ -252,7 +255,7 @@ public class RaceRestControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(1L))
 				.andExpect(jsonPath("$[0].grandPrixName").value("Monaco GP"));
-		
+
 		verify(raceService).getRacesByCountry(raceTest1.getCountry());
 	}
 
@@ -266,7 +269,7 @@ public class RaceRestControllerTest {
 		mockMvc.perform(get("/races/search").param("country", "Spain"))
 				.andExpect(status().isNoContent())
 				.andExpect(header().string("message", "No races found for country: Spain"));
-		
+
 		verify(raceService).getRacesByCountry("Spain");
 	}
 }

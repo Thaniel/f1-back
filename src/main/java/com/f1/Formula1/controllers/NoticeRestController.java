@@ -148,7 +148,7 @@ public class NoticeRestController {
 	}
 
 	/*
-	 * Get Notices by Year
+	 * Get Notices by Year // TODO: This end point is not RestFull
 	 */
 	@GetMapping(value = "/year/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.year")
@@ -170,7 +170,7 @@ public class NoticeRestController {
 	}
 
 	/*
-	 * Get Notices by Year and Month
+	 * Get Notices by Year and Month // TODO: This end point is not RestFull
 	 */
 	@GetMapping(value = "/year/{year}/month/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed("notices.by.year.month")
